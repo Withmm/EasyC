@@ -25,7 +25,6 @@ int param(struct Token *token, int curtoken);
 int _para_list(struct Token *token, int curtoken);
 int expr(struct Token *token, int curtoken);
 int state(struct Token *token, int curtoken);
-int state(struct Token *token, int curtoken);
 int state_if(struct Token *token, int curtoken);
 int state_for(struct Token *token, int curtoken);
 int state_let(struct Token *token, int curtoken);
@@ -221,9 +220,21 @@ int state(struct Token *token, int curtoken)
 {
 	if (strcmp(token[curtoken].lexeme, "return") == 0) {
 		curtoken = state_return(token, curtoken);
-	} else {
-		curtoken = state_let(token, curtoken);		
 	}
+
+	switch(token[curtoken].ttype) {
+
+	case Char:				
+
+	case Short:			
+
+	case Int:				
+
+	case Long:				curtoken = state_let(token, curtoken);
+
+	default:				break;
+	}
+
 	return curtoken;
 }
 
