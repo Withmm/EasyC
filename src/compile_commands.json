@@ -1,0 +1,47 @@
+[
+  {
+    "arguments": [
+      "/usr/bin/gcc",
+      "-Wall",
+      "-Wextra",
+      "-std=c99",
+      "-c",
+      "-o",
+      "../build/main.o",
+      "main.c"
+    ],
+    "directory": "/home/xiongzile/workspace/Easyc/C/src",
+    "file": "/home/xiongzile/workspace/Easyc/C/src/main.c",
+    "output": "/home/xiongzile/workspace/Easyc/C/build/main.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/gcc",
+      "-Wall",
+      "-Wextra",
+      "-std=c99",
+      "-c",
+      "-o",
+      "../build/lex.o",
+      "lex.c"
+    ],
+    "directory": "/home/xiongzile/workspace/Easyc/C/src",
+    "file": "/home/xiongzile/workspace/Easyc/C/src/lex.c",
+    "output": "/home/xiongzile/workspace/Easyc/C/build/lex.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/gcc",
+      "-Wall",
+      "-Wextra",
+      "-std=c99",
+      "-c",
+      "-o",
+      "../build/parser.o",
+      "parser.c"
+    ],
+    "directory": "/home/xiongzile/workspace/Easyc/C/src",
+    "file": "/home/xiongzile/workspace/Easyc/C/src/parser.c",
+    "output": "/home/xiongzile/workspace/Easyc/C/build/parser.o"
+  }
+]
