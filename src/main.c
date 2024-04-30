@@ -20,6 +20,7 @@ int main(int argc, char *argv[])
 
 	FILE *fp;
 	fp = fopen(argv[1], "r");
+    printf("argv[1] = %s\n", argv[1]);
 	assert(fp != NULL);
     // read line by line
     char line[LINE_MAX];

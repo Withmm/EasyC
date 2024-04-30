@@ -322,6 +322,14 @@ int _expr(struct Token *token, int curtoken)
 		curtoken++;
 		curtoken = __expr(token, curtoken);
 		curtoken = _expr(token, curtoken);
+		return curtoken;
+	}
+
+	if (strcmp(token[curtoken].lexeme, "-") == 0 ) {
+		curtoken++;
+		curtoken = __expr(token, curtoken);
+		curtoken = _expr(token, curtoken);
+		return curtoken;
 	}
 	return curtoken;
 }
@@ -336,6 +344,11 @@ int __expr(struct Token *token, int curtoken)
 int ___expr(struct Token *token, int curtoken)
 {
 	if (strcmp(token[curtoken].lexeme, "*") == 0) {
+		curtoken++;
+		curtoken = expr_t(token, curtoken);
+		curtoken = ___expr(token, curtoken);
+	}
+	if (strcmp(token[curtoken].lexeme, "/") == 0) {
 		curtoken++;
 		curtoken = expr_t(token, curtoken);
 		curtoken = ___expr(token, curtoken);
