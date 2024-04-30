@@ -33,8 +33,8 @@ from: https://www.omegaxyz.com/2018/12/21/ll1-recursiondown/
 */
 int expr(struct Token *token, int curtoken); // E
 int _expr(struct Token *token, int curtoken); // E'
-int __expr(struct Token *token, int curtoken); // T
-int ___expr(struct Token *token, int curtoken); // T'
+int expr_T(struct Token *token, int curtoken); // T
+int expr_T_(struct Token *token, int curtoken); // T'
 int expr_t(struct Token *token, int curtoken); // F
 
 int state(struct Token *token, int curtoken);
@@ -311,7 +311,7 @@ int state_return(struct Token *token, int curtoken)
 
 int expr(struct Token *token, int curtoken)
 {
-	curtoken = __expr(token, curtoken);	
+	curtoken = expr_T(token, curtoken);	
 	curtoken = _expr(token, curtoken);
 	return curtoken;
 }
@@ -320,38 +320,38 @@ int _expr(struct Token *token, int curtoken)
 {
 	if (strcmp(token[curtoken].lexeme, "+") == 0 ) {
 		curtoken++;
-		curtoken = __expr(token, curtoken);
+		curtoken = expr_T(token, curtoken);
 		curtoken = _expr(token, curtoken);
 		return curtoken;
 	}
 
 	if (strcmp(token[curtoken].lexeme, "-") == 0 ) {
 		curtoken++;
-		curtoken = __expr(token, curtoken);
+		curtoken = expr_T(token, curtoken);
 		curtoken = _expr(token, curtoken);
 		return curtoken;
 	}
 	return curtoken;
 }
 
-int __expr(struct Token *token, int curtoken)
+int expr_T(struct Token *token, int curtoken)
 {
 	curtoken = expr_t(token, curtoken);
-	curtoken = ___expr(token, curtoken);
+	curtoken = expr_T_(token, curtoken);
 	return curtoken;
 }
 
-int ___expr(struct Token *token, int curtoken)
+int expr_T_(struct Token *token, int curtoken)
 {
 	if (strcmp(token[curtoken].lexeme, "*") == 0) {
 		curtoken++;
 		curtoken = expr_t(token, curtoken);
-		curtoken = ___expr(token, curtoken);
+		curtoken = expr_T_(token, curtoken);
 	}
 	if (strcmp(token[curtoken].lexeme, "/") == 0) {
 		curtoken++;
 		curtoken = expr_t(token, curtoken);
-		curtoken = ___expr(token, curtoken);
+		curtoken = expr_T_(token, curtoken);
 	}
 	return curtoken;
 }
