@@ -43,7 +43,7 @@ int main(int argc, char *argv[])
 	}
     parser(maintoken, ntoken);
 
-    printf("parser is over\n");
+    printf("parser is successful!\n");
 	return 0;
 }
 

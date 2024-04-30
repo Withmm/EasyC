@@ -7,6 +7,6 @@ int t = 3;
 int q;
 int main() {
     int x;
-    int y = 2;
+    int y = (5 * 5) + (5);
     return 0;
 }

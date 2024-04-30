@@ -23,7 +23,20 @@ int paras(struct Token *token, int curtoken);
 int para_list(struct Token *token, int curtoken);
 int param(struct Token *token, int curtoken);
 int _para_list(struct Token *token, int curtoken);
-int expr(struct Token *token, int curtoken);
+/*
+E->TE’
+E’->+TE’ | ε
+T->FT’
+T’->*F T’| ε
+F->(E) | i
+from: https://www.omegaxyz.com/2018/12/21/ll1-recursiondown/
+*/
+int expr(struct Token *token, int curtoken); // E
+int _expr(struct Token *token, int curtoken); // E'
+int __expr(struct Token *token, int curtoken); // T
+int ___expr(struct Token *token, int curtoken); // T'
+int expr_t(struct Token *token, int curtoken); // F
+
 int state(struct Token *token, int curtoken);
 int state_if(struct Token *token, int curtoken);
 int state_for(struct Token *token, int curtoken);
@@ -206,6 +219,7 @@ int stmt(struct Token *token, int curtoken)
 		curtoken = state(token, curtoken);
 		if (strcmp(token[curtoken].lexeme, ";") != 0) {
 			printf("curtoken = %d\n", curtoken);
+			printf("error symbol = %s\n", token[curtoken].lexeme);
 			errormsg("stmt: missing ;");
 		}
 		curtoken++;
@@ -297,12 +311,58 @@ int state_return(struct Token *token, int curtoken)
 
 int expr(struct Token *token, int curtoken)
 {
-	if (token[curtoken].ttype != Constant) {
-		errormsg("expr: not Constant");
-	}
-	curtoken++;
+	curtoken = __expr(token, curtoken);	
+	curtoken = _expr(token, curtoken);
 	return curtoken;
 }
+
+int _expr(struct Token *token, int curtoken)
+{
+	if (strcmp(token[curtoken].lexeme, "+") == 0 ) {
+		curtoken++;
+		curtoken = __expr(token, curtoken);
+		curtoken = _expr(token, curtoken);
+	}
+	return curtoken;
+}
+
+int __expr(struct Token *token, int curtoken)
+{
+	curtoken = expr_t(token, curtoken);
+	curtoken = ___expr(token, curtoken);
+	return curtoken;
+}
+
+int ___expr(struct Token *token, int curtoken)
+{
+	if (strcmp(token[curtoken].lexeme, "*") == 0) {
+		curtoken++;
+		curtoken = expr_t(token, curtoken);
+		curtoken = ___expr(token, curtoken);
+	}
+	return curtoken;
+}
+int expr_t(struct Token *token, int curtoken)
+{
+	if (token[curtoken].ttype == Identifier || token[curtoken].ttype == Constant) {
+		curtoken++;
+		return curtoken;
+	}
+	if (strcmp(token[curtoken].lexeme, "(") == 0) {
+		curtoken++;
+		curtoken = expr(token, curtoken);
+		if (strcmp(token[curtoken].lexeme, ")") != 0) {
+			errormsg("expr error: missing \')\'\n");
+		}
+		curtoken++;
+		return curtoken;
+	}
+	errormsg("expr error: missing Identifier or \'(\'\n");
+	return curtoken;
+}
+
+
+
 int parser(struct Token *token, int ntoken)
 {
 	maxtoken = ntoken;
