@@ -28,7 +28,8 @@ E->TE’
 E’->+TE’ | ε
 T->FT’
 T’->*F T’| ε
-F->(E) | i
+F->(E) | constant | Identifier | func
+func->Identifer(paras)
 from: https://www.omegaxyz.com/2018/12/21/ll1-recursiondown/
 */
 int expr(struct Token *token, int curtoken); // E
@@ -36,7 +37,10 @@ int _expr(struct Token *token, int curtoken); // E'
 int expr_T(struct Token *token, int curtoken); // T
 int expr_T_(struct Token *token, int curtoken); // T'
 int expr_t(struct Token *token, int curtoken); // F
-
+int expr_constant(struct Token *token, int curtoken);
+int expr_variable(struct Token *token, int curtoken);
+int expr_func(struct Token *token, int curtoken);
+int expr_func_paras(struct Token *token, int curtoken);
 int state(struct Token *token, int curtoken);
 int state_if(struct Token *token, int curtoken);
 int state_for(struct Token *token, int curtoken);
@@ -44,6 +48,7 @@ int state_let(struct Token *token, int curtoken);
 int state_switch(struct Token *token, int curtoken);
 int state_return(struct Token *token, int curtoken);
 int program(struct Token *token, int curtoken);
+
 int program(struct Token *token, int curtoken)
 {
 	curtoken = declaration_list(token, curtoken);
@@ -357,8 +362,16 @@ int expr_T_(struct Token *token, int curtoken)
 }
 int expr_t(struct Token *token, int curtoken)
 {
-	if (token[curtoken].ttype == Identifier || token[curtoken].ttype == Constant) {
-		curtoken++;
+	if (token[curtoken].ttype == Constant) {
+		curtoken = expr_constant(token, curtoken);
+		return curtoken;
+	}
+	if (token[curtoken].ttype == Identifier && strcmp(token[curtoken + 1].lexeme, "(") != 0) {
+		curtoken = expr_variable(token, curtoken);
+		return curtoken;
+	}
+	if (token[curtoken].ttype == Identifier) {
+		curtoken = expr_func(token, curtoken);
 		return curtoken;
 	}
 	if (strcmp(token[curtoken].lexeme, "(") == 0) {
@@ -374,8 +387,69 @@ int expr_t(struct Token *token, int curtoken)
 	return curtoken;
 }
 
+int expr_constant(struct Token *token, int curtoken)
+{
+	if (token[curtoken].ttype == Constant) {
+		curtoken++;
+		return curtoken;
+	} else {
+		errormsg("expr error: missing constant");
+		exit(-1);
+	}
+}
 
+int expr_variable(struct Token *token, int curtoken)
+{
+	if (token[curtoken].ttype == Identifier) {
+		curtoken++;
+		return curtoken;
+	} else {
+		errormsg("expr error: missing variable");
+		exit(-1);
+	}
+}
 
+int expr_func(struct Token *token, int curtoken)
+{
+	if (token[curtoken].ttype != Identifier) {
+		errormsg("expr error: missing func_name");
+	}			
+	curtoken++;
+	//(
+	
+	if (strcmp(token[curtoken].lexeme, "(") != 0) {
+		errormsg("expr_func error: missing ("); 
+	}
+	curtoken++;
+
+	curtoken = expr_func_paras(token, curtoken);
+	return curtoken;
+}
+
+int expr_func_paras(struct Token *token, int curtoken)
+{
+	while(strcmp(token[curtoken].lexeme, ")") != 0) {
+		switch (token[curtoken].ttype) {
+		case Identifier:
+			curtoken++;
+			break;
+		case Constant:
+			curtoken++;
+			break;
+		default:
+			errormsg("expr_func_paras error: expected Identifier or Constant");
+			break;
+		}
+		if (strcmp(token[curtoken].lexeme, ",") == 0) {
+			curtoken++;
+		}
+		if (strcmp(token[curtoken].lexeme, ")") == 0) {
+			break;
+		}
+	}
+	curtoken++;
+	return curtoken;
+}
 int parser(struct Token *token, int ntoken)
 {
 	maxtoken = ntoken;
