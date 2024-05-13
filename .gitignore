@@ -1,4 +1,5 @@
 # ignore all build files and .cache files
 build/*
 .cache/*
+src/.cache/*
 
