@@ -504,7 +504,13 @@ int state_if(struct Token *token, int curtoken)
 	}
 	curtoken++;
 	// {
+
 	curtoken = stmt(token, curtoken);
+	//else or end
+	if (strcmp(token[curtoken].lexeme, "else") == 0) {
+		curtoken++;
+		curtoken = stmt(token, curtoken);
+	}
 	return curtoken;
 }
 
