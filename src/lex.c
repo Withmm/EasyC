@@ -95,7 +95,7 @@ int lexer(char *file_lexeme, struct Token *maintoken)
 				
 			} else if (is_letter(first_char)) {
 				token.ttype = Identifier;
-				if (is_letter(*pchar)) {
+				if (is_letter(*pchar) || is_number(*pchar)) {
 					token.lexeme[shift++] = *pchar++;			
 				}
 				else {
