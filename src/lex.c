@@ -1,4 +1,4 @@
-#include "lex.h"
+#include "include/lex.h"
 #include <string.h>
 #include <ctype.h>
 #include <stdio.h>

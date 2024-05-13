@@ -10,7 +10,7 @@ $(TARGET): $(OBJ_DIR)/main.o $(OBJ_DIR)/lex.o $(OBJ_DIR)/parser.o
 $(OBJ_DIR)/%.o: %.c
 	$(CC) $(CFLAGS) -c $< -o $@
 
-$(OBJ_DIR)/lex.o $(OBJ_DIR)/parser.o: lex.h parser.h
+$(OBJ_DIR)/lex.o $(OBJ_DIR)/parser.o: include/lex.h include/parser.h include/types.h
 
 clean:
 	rm -f $(TARGET) $(OBJ_DIR)/*.o
