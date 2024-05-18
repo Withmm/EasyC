@@ -235,6 +235,7 @@ int stmt(struct Token *token, int curtoken)
 		curtoken = state(token, curtoken);
 	}
 	// }
+
 	curtoken++;
 	return curtoken;
 }
@@ -277,6 +278,11 @@ int state(struct Token *token, int curtoken)
 	// if statement
 	if (strcmp(token[curtoken].lexeme, "if") == 0) {
 		curtoken = state_if(token, curtoken);
+		return curtoken;
+	}
+	//for statement
+	if (strcmp(token[curtoken].lexeme, "for") == 0) {
+		curtoken = state_for(token, curtoken);
 		return curtoken;
 	}
 	return curtoken;
@@ -326,6 +332,9 @@ int state_let(struct Token *token, int curtoken)
 	curtoken = expr(token, curtoken);
 
 	//;
+	if (strcmp(token[curtoken].lexeme, ";") != 0 && strcmp(token[curtoken].lexeme, ")") != 0) {
+		errormsg("state_let error: missing ; or )");
+	}
 	curtoken++;
 	return curtoken;
 }
@@ -555,6 +564,59 @@ int expr_bool(struct Token *token, int curtoken) {
 	}
 	errormsg("no match bool symbol: != == > < >= <=");
 	exit(-1);
+}
+
+int state_for(struct Token *token, int curtoken)
+{
+	if (strcmp(token[curtoken].lexeme, "for") != 0) {
+		errormsg("state_for error: missing for");
+	}
+	curtoken++;
+	//(
+
+	curtoken++;
+
+	curtoken = state_let(token, curtoken);
+	
+	if (strcmp(token[curtoken].lexeme, ";") == 0) { // for (int x = 0; ; ....
+		curtoken++;
+	} else { // for (int x = 0; x < 10
+		curtoken = expr_bool(token, curtoken);
+		if (strcmp(token[curtoken].lexeme, ";") != 0) {
+			errormsg("state_for error: missing ;");
+		}
+		curtoken++;
+		switch(token[curtoken].ttype) {
+
+		case Char:				
+
+		case Short:			
+
+		case Int:				
+
+		case Long:	
+			curtoken = state_let(token, curtoken);
+			// {
+
+		case Identifier:
+			if (strcmp(token[curtoken + 1].lexeme, "=") == 0) {
+					curtoken += 2;
+					curtoken = expr(token, curtoken); 
+					//;
+					curtoken++;
+					//{
+			} else {
+					errormsg("state error: missing =");
+			}
+
+		default: 
+			break;
+		}
+	}
+	
+	// {
+	curtoken = stmt(token, curtoken);
+	return curtoken;
 }
 int parser(struct Token *token, int ntoken)
 {
