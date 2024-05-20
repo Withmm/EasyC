@@ -14,5 +14,4 @@ struct Token {
 	enum tokentype ttype;
 	char lexeme[32];
 };
-
 #endif

@@ -1,4 +1,5 @@
 #include "include/types.h"
+#include "include/parser.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -10,19 +11,20 @@ void errormsg(const char *str)
 }
 /* declaration */
 int maxtoken;
-int program(struct Token *token, int curtoken);
-int declaration_list(struct Token *token, int curtoken);
-int declaration(struct Token *token, int curtoken);
-int var_declaration(struct Token *token, int curtoken);
-int func_declaration(struct Token *token, int curtoken);
-int type(struct Token *token, int curtoken);
-int identifiler(struct Token *token, int curtoken);
-int parameters(struct Token *token, int curtoken);
-int stmt(struct Token *token, int curtoken);
-int paras(struct Token *token, int curtoken);
-int para_list(struct Token *token, int curtoken);
-int param(struct Token *token, int curtoken);
-int _para_list(struct Token *token, int curtoken);
+int curtoken;
+int program(struct Token *token);
+int declaration_list(struct Token *token);
+int declaration(struct Token *token);
+int var_declaration(struct Token *token);
+int func_declaration(struct Token *token);
+int type(struct Token *token);
+int identifiler(struct Token *token);
+int parameters(struct Token *token);
+int stmt(struct Token *token);
+int paras(struct Token *token);
+int para_list(struct Token *token);
+int param(struct Token *token);
+int _para_list(struct Token *token);
 /*
 E->TE’
 E’->+TE’ | ε
@@ -32,28 +34,28 @@ F->(E) | constant | Identifier | func
 func->Identifer(paras)
 from: https://www.omegaxyz.com/2018/12/21/ll1-recursiondown/
 */
-int expr(struct Token *token, int curtoken); // E
-int _expr(struct Token *token, int curtoken); // E'
-int expr_T(struct Token *token, int curtoken); // T
-int expr_T_(struct Token *token, int curtoken); // T'
-int expr_t(struct Token *token, int curtoken); // F
-int expr_constant(struct Token *token, int curtoken);
-int expr_variable(struct Token *token, int curtoken);
-int expr_func(struct Token *token, int curtoken);
-int expr_func_paras(struct Token *token, int curtoken);
-int expr_bool(struct Token *token, int curtoken);
+int expr(struct Token *token); // E
+int _expr(struct Token *token); // E'
+int expr_T(struct Token *token); // T
+int expr_T_(struct Token *token); // T'
+int expr_t(struct Token *token); // F
+int expr_constant(struct Token *token);
+int expr_variable(struct Token *token);
+int expr_func(struct Token *token);
+int expr_func_paras(struct Token *token);
+int expr_bool(struct Token *token);
 
-int state(struct Token *token, int curtoken);
-int state_if(struct Token *token, int curtoken);
-int state_for(struct Token *token, int curtoken);
-int state_let(struct Token *token, int curtoken);
-int state_switch(struct Token *token, int curtoken);
-int state_return(struct Token *token, int curtoken);
-int program(struct Token *token, int curtoken);
+int state(struct Token *token);
+int state_if(struct Token *token);
+int state_for(struct Token *token);
+int state_let(struct Token *token);
+int state_switch(struct Token *token);
+int state_return(struct Token *token);
+int program(struct Token *token);
 
-int program(struct Token *token, int curtoken)
+int program(struct Token *token)
 {
-	curtoken = declaration_list(token, curtoken);
+	curtoken = declaration_list(token);
 
 	if (curtoken != -1) {
 		return curtoken;
@@ -63,25 +65,24 @@ int program(struct Token *token, int curtoken)
 	return curtoken;
 }
 
-int declaration_list(struct Token *token, int curtoken)
+int declaration_list(struct Token *token)
 {
 	while(curtoken < maxtoken){
-		printf("token : %d\n", curtoken);
-		curtoken = declaration(token, curtoken);
+		curtoken = declaration(token);
 	}
 	return curtoken;
 }
 
-int declaration(struct Token *token, int curtoken)
+int declaration(struct Token *token)
 {
 
 //	int main() or int x;  
 
 	if (strcmp(token[curtoken + 2].lexeme, "(") == 0) {
 		printf("get in func_declaration\n");
-		curtoken = func_declaration(token, curtoken);
+		curtoken = func_declaration(token);
 	} else {
-		curtoken = var_declaration(token, curtoken);
+		curtoken = var_declaration(token);
 	}
 
 	if (curtoken == -1) {
@@ -90,7 +91,7 @@ int declaration(struct Token *token, int curtoken)
 	return curtoken;
 }
 
-int func_declaration(struct Token *token, int curtoken) 
+int func_declaration(struct Token *token) 
 {
 
 	// int 
@@ -119,12 +120,12 @@ int func_declaration(struct Token *token, int curtoken)
 	curtoken++;
 	// (
 
-	curtoken = paras(token, curtoken);
-	curtoken = stmt(token, curtoken);
+	curtoken = paras(token);
+	curtoken = stmt(token);
 	return curtoken;
 }
 
-int var_declaration(struct Token *token, int curtoken)
+int var_declaration(struct Token *token)
 {
 	printf("var_declaration first token:%s\n", token[curtoken].lexeme);
 	// int
@@ -174,7 +175,7 @@ int var_declaration(struct Token *token, int curtoken)
 	curtoken++;
 	return curtoken;
 }
-int paras(struct Token *token, int curtoken)
+int paras(struct Token *token)
 {
 	//(
 	if (strcmp(token[curtoken].lexeme, "(") != 0) {
@@ -224,7 +225,7 @@ int paras(struct Token *token, int curtoken)
 	return curtoken;
 }
 
-int stmt(struct Token *token, int curtoken) 
+int stmt(struct Token *token) 
 {
 	// {
 	if (strcmp(token[curtoken].lexeme, "{") != 0) {
@@ -232,7 +233,7 @@ int stmt(struct Token *token, int curtoken)
 	}
 	curtoken++;
 	while(strcmp(token[curtoken].lexeme, "}") != 0) {
-		curtoken = state(token, curtoken);
+		curtoken = state(token);
 	}
 	// }
 
@@ -240,12 +241,12 @@ int stmt(struct Token *token, int curtoken)
 	return curtoken;
 }
 
-int state(struct Token *token, int curtoken)
+int state(struct Token *token)
 {
 
 	// return xxx
 	if (strcmp(token[curtoken].lexeme, "return") == 0) {
-		curtoken = state_return(token, curtoken);
+		curtoken = state_return(token);
 		return curtoken;
 	}
 
@@ -259,13 +260,13 @@ int state(struct Token *token, int curtoken)
 
 	case Int:				
 
-	case Long:				curtoken = state_let(token, curtoken);
+	case Long:				curtoken = state_let(token);
 							return curtoken;
 
 	case Identifier:
 							if (strcmp(token[curtoken + 1].lexeme, "=") == 0) {
 								curtoken += 2;
-								curtoken = expr(token, curtoken); 
+								curtoken = expr(token); 
 								//;
 								curtoken++;
 								return curtoken;
@@ -277,18 +278,18 @@ int state(struct Token *token, int curtoken)
 	}
 	// if statement
 	if (strcmp(token[curtoken].lexeme, "if") == 0) {
-		curtoken = state_if(token, curtoken);
+		curtoken = state_if(token);
 		return curtoken;
 	}
 	//for statement
 	if (strcmp(token[curtoken].lexeme, "for") == 0) {
-		curtoken = state_for(token, curtoken);
+		curtoken = state_for(token);
 		return curtoken;
 	}
 	return curtoken;
 }
 
-int state_let(struct Token *token, int curtoken)
+int state_let(struct Token *token)
 {
 	printf("get in state_let\n");
 	// int
@@ -329,7 +330,7 @@ int state_let(struct Token *token, int curtoken)
 
 	curtoken++;
 	//expr
-	curtoken = expr(token, curtoken);
+	curtoken = expr(token);
 
 	//;
 	if (strcmp(token[curtoken].lexeme, ";") != 0 && strcmp(token[curtoken].lexeme, ")") != 0) {
@@ -339,7 +340,7 @@ int state_let(struct Token *token, int curtoken)
 	return curtoken;
 }
 
-int state_return(struct Token *token, int curtoken)
+int state_return(struct Token *token)
 {
 	// return
 	if (strcmp(token[curtoken].lexeme, "return") != 0) {
@@ -348,7 +349,7 @@ int state_return(struct Token *token, int curtoken)
 
 	curtoken++;
 	// expr
-	curtoken = expr(token, curtoken);	
+	curtoken = expr(token);	
 	//;
 	if (strcmp(token[curtoken].lexeme, ";") != 0 ) {
 		errormsg("state_return error: missing ;");
@@ -358,69 +359,69 @@ int state_return(struct Token *token, int curtoken)
 	return curtoken;
 }
 
-int expr(struct Token *token, int curtoken)
+int expr(struct Token *token)
 {
-	curtoken = expr_T(token, curtoken);	
-	curtoken = _expr(token, curtoken);
+	curtoken = expr_T(token);	
+	curtoken = _expr(token);
 	return curtoken;
 }
 
-int _expr(struct Token *token, int curtoken)
+int _expr(struct Token *token)
 {
 	if (strcmp(token[curtoken].lexeme, "+") == 0 ) {
 		curtoken++;
-		curtoken = expr_T(token, curtoken);
-		curtoken = _expr(token, curtoken);
+		curtoken = expr_T(token);
+		curtoken = _expr(token);
 		return curtoken;
 	}
 
 	if (strcmp(token[curtoken].lexeme, "-") == 0 ) {
 		curtoken++;
-		curtoken = expr_T(token, curtoken);
-		curtoken = _expr(token, curtoken);
+		curtoken = expr_T(token);
+		curtoken = _expr(token);
 		return curtoken;
 	}
 	return curtoken;
 }
 
-int expr_T(struct Token *token, int curtoken)
+int expr_T(struct Token *token)
 {
-	curtoken = expr_t(token, curtoken);
-	curtoken = expr_T_(token, curtoken);
+	curtoken = expr_t(token);
+	curtoken = expr_T_(token);
 	return curtoken;
 }
 
-int expr_T_(struct Token *token, int curtoken)
+int expr_T_(struct Token *token)
 {
 	if (strcmp(token[curtoken].lexeme, "*") == 0) {
 		curtoken++;
-		curtoken = expr_t(token, curtoken);
-		curtoken = expr_T_(token, curtoken);
+		curtoken = expr_t(token);
+		curtoken = expr_T_(token);
 	}
 	if (strcmp(token[curtoken].lexeme, "/") == 0) {
 		curtoken++;
-		curtoken = expr_t(token, curtoken);
-		curtoken = expr_T_(token, curtoken);
+		curtoken = expr_t(token);
+		curtoken = expr_T_(token);
 	}
 	return curtoken;
 }
-int expr_t(struct Token *token, int curtoken)
+int expr_t(struct Token *token)
 {
 	if (token[curtoken].ttype == Constant) {
-		curtoken = expr_constant(token, curtoken);
+		curtoken = expr_constant(token);
 		return curtoken;
 	}
 	if (token[curtoken].ttype == Identifier && strcmp(token[curtoken + 1].lexeme, "(") != 0) {
-		curtoken = expr_variable(token, curtoken);
+		curtoken = expr_variable(token);
 		return curtoken;
 	}
 	if (token[curtoken].ttype == Identifier) {
-		curtoken = expr_func(token, curtoken);
+		curtoken = expr_func(token);
 		return curtoken;
 	}
 	if (strcmp(token[curtoken].lexeme, "(") == 0) {
 		curtoken++;
-		curtoken = expr(token, curtoken);
+		curtoken = expr(token);
 		if (strcmp(token[curtoken].lexeme, ")") != 0) {
 			errormsg("expr error: missing \')\'\n");
 		}
@@ -431,7 +432,7 @@ int expr_t(struct Token *token, int curtoken)
 	return curtoken;
 }
 
-int expr_constant(struct Token *token, int curtoken)
+int expr_constant(struct Token *token)
 {
 	if (token[curtoken].ttype == Constant) {
 		curtoken++;
@@ -442,7 +443,7 @@ int expr_constant(struct Token *token, int curtoken)
 	}
 }
 
-int expr_variable(struct Token *token, int curtoken)
+int expr_variable(struct Token *token)
 {
 	if (token[curtoken].ttype == Identifier) {
 		curtoken++;
@@ -453,7 +454,7 @@ int expr_variable(struct Token *token, int curtoken)
 	}
 }
 
-int expr_func(struct Token *token, int curtoken)
+int expr_func(struct Token *token)
 {
 	if (token[curtoken].ttype != Identifier) {
 		errormsg("expr error: missing func_name");
@@ -466,11 +467,11 @@ int expr_func(struct Token *token, int curtoken)
 	}
 	curtoken++;
 
-	curtoken = expr_func_paras(token, curtoken);
+	curtoken = expr_func_paras(token);
 	return curtoken;
 }
 
-int expr_func_paras(struct Token *token, int curtoken)
+int expr_func_paras(struct Token *token)
 {
 	while(strcmp(token[curtoken].lexeme, ")") != 0) {
 		switch (token[curtoken].ttype) {
@@ -495,7 +496,7 @@ int expr_func_paras(struct Token *token, int curtoken)
 	return curtoken;
 }
 
-int state_if(struct Token *token, int curtoken)
+int state_if(struct Token *token)
 {
 	if (strcmp(token[curtoken].lexeme, "if") != 0) {
 		errormsg("state_if error: missing if");
@@ -506,7 +507,7 @@ int state_if(struct Token *token, int curtoken)
 		errormsg("state_if error: missing (");
 	}
 	curtoken++;	
-	curtoken = expr_bool(token, curtoken);
+	curtoken = expr_bool(token);
 	//)
 	if (strcmp(token[curtoken].lexeme, ")") != 0 ) {
 		errormsg("state_if error: missing )");
@@ -514,36 +515,36 @@ int state_if(struct Token *token, int curtoken)
 	curtoken++;
 	// {
 
-	curtoken = stmt(token, curtoken);
+	curtoken = stmt(token);
 	//else or end
 	if (strcmp(token[curtoken].lexeme, "else") == 0) {
 		curtoken++;
-		curtoken = stmt(token, curtoken);
+		curtoken = stmt(token);
 	}
 	return curtoken;
 }
 
-int expr_bool(struct Token *token, int curtoken) {
-	curtoken = expr(token, curtoken);
+int expr_bool(struct Token *token) {
+	curtoken = expr(token);
 	if (strcmp(token[curtoken].lexeme, ">") == 0) {
 		if (strcmp(token[curtoken + 1].lexeme, "=") == 0) {
 			curtoken += 2;
-			curtoken = expr(token, curtoken);
+			curtoken = expr(token);
 			return curtoken;
 		}
 		curtoken++;
-		curtoken = expr(token, curtoken);
+		curtoken = expr(token);
 		return curtoken;
 		
 	}
 	if (strcmp(token[curtoken].lexeme, "<") == 0) {
 		if (strcmp(token[curtoken + 1].lexeme, "=") == 0) {
 			curtoken += 2;
-			curtoken = expr(token, curtoken);
+			curtoken = expr(token);
 			return curtoken;
 		}
 		curtoken++;
-		curtoken = expr(token, curtoken);
+		curtoken = expr(token);
 		return curtoken;	
 	}
 	if (strcmp(token[curtoken].lexeme, "=") == 0) {
@@ -551,7 +552,7 @@ int expr_bool(struct Token *token, int curtoken) {
 			errormsg("expr_bool error: use == instead =");
 		}
 		curtoken += 2;
-		curtoken = expr(token, curtoken);
+		curtoken = expr(token);
 		return curtoken;
 	}
 	if (strcmp(token[curtoken].lexeme, "!") == 0) {
@@ -559,14 +560,14 @@ int expr_bool(struct Token *token, int curtoken) {
 			errormsg("expr_bool error: unexpected symbol '!'");
 		}
 		curtoken += 2;
-		curtoken = expr(token, curtoken);
+		curtoken = expr(token);
 		return curtoken;
 	}
 	errormsg("no match bool symbol: != == > < >= <=");
 	exit(-1);
 }
 
-int state_for(struct Token *token, int curtoken)
+int state_for(struct Token *token)
 {
 	if (strcmp(token[curtoken].lexeme, "for") != 0) {
 		errormsg("state_for error: missing for");
@@ -576,12 +577,12 @@ int state_for(struct Token *token, int curtoken)
 
 	curtoken++;
 
-	curtoken = state_let(token, curtoken);
+	curtoken = state_let(token);
 	
 	if (strcmp(token[curtoken].lexeme, ";") == 0) { // for (int x = 0; ; ....
 		curtoken++;
 	} else { // for (int x = 0; x < 10
-		curtoken = expr_bool(token, curtoken);
+		curtoken = expr_bool(token);
 		if (strcmp(token[curtoken].lexeme, ";") != 0) {
 			errormsg("state_for error: missing ;");
 		}
@@ -595,13 +596,13 @@ int state_for(struct Token *token, int curtoken)
 		case Int:				
 
 		case Long:	
-			curtoken = state_let(token, curtoken);
+			curtoken = state_let(token);
 			// {
 
 		case Identifier:
 			if (strcmp(token[curtoken + 1].lexeme, "=") == 0) {
 					curtoken += 2;
-					curtoken = expr(token, curtoken); 
+					curtoken = expr(token); 
 					//;
 					curtoken++;
 					//{
@@ -615,12 +616,11 @@ int state_for(struct Token *token, int curtoken)
 	}
 	
 	// {
-	curtoken = stmt(token, curtoken);
+	curtoken = stmt(token);
 	return curtoken;
 }
 int parser(struct Token *token, int ntoken)
 {
 	maxtoken = ntoken;
-	int curtoken = 0;
-	return program(token, curtoken);	
+	return program(token);	
 }
