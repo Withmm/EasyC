@@ -1,5 +1,6 @@
 #include "include/types.h"
 #include "include/parser.h"
+#include "include/ast.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
