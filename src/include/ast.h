@@ -1,8 +1,8 @@
 #ifndef AST_H_
 #define AST_H_
 enum AST_node_type {PROGRAM, DECLARATION_LIST, VAR_DEC, FUNC_DEC, PARAMS, STATE, STMT};
-enum func_type_enum {VOID, CHAR, SHORT, INT, LONG};
-enum var_type_enum {VCHAR, VSHORT, VINT, VLONG};
+enum func_type_enum {VOID = 0, CHAR, SHORT, INT, LONG};
+enum var_type_enum {VCHAR = 0, VSHORT, VINT, VLONG};
 enum state_type_enum {INIT, LET, IF, FOR, RETURN};
 struct AST_node {
     enum AST_node_type type;
@@ -147,4 +147,6 @@ struct AST_node_condition {
     struct AST_node_expr *left;
     struct AST_node_expr *right;
 };
+
+void handler_ast(struct AST_node_program* program);
 #endif

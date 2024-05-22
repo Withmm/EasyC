@@ -1,5 +1,5 @@
 #include "types.h"
-int parser(struct Token *token, int ntoken);
+struct AST_node_program *parser(struct Token *token, int ntoken);
 char *strdup(const char *s);
 struct qua {
     char op[4];

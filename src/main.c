@@ -2,8 +2,9 @@
 #include <assert.h>
 #include <stdlib.h>
 #include <string.h>
-#include "lex.h"
-#include "parser.h"
+#include "include/lex.h"
+#include "include/parser.h"
+#include "include/ast.h"
 char source_string[FILEMAX];
 struct Token maintoken[NTOKEN]; 
 int ntoken;
@@ -13,15 +14,15 @@ char typedebug[13][16] = {"Identifier", "Keyword", "Constant", "Operator", "Deli
 int main(int argc, char *argv[]) 
 {
 
-	if (argc != 2) {
-		printf("argument error\n");
-		return -1;
-	}
+	  if (argc != 2) {
+		    printf("argument error\n");
+		    return -1;
+	  }
 
-	FILE *fp;
-	fp = fopen(argv[1], "r");
-    printf("argv[1] = %s\n", argv[1]);
-	assert(fp != NULL);
+	  FILE *fp;
+	  fp = fopen(argv[1], "r");
+        printf("argv[1] = %s\n", argv[1]);
+	  assert(fp != NULL);
     // read line by line
     char line[LINE_MAX];
     int source_index = 0;
@@ -36,13 +37,16 @@ int main(int argc, char *argv[])
         source_index += strlen(line);
     }
     fclose(fp);
-	//printf("%s", source_string);
-	ntoken = lexer(source_string, maintoken);
-	for (int i = 0; i < ntoken; i++) {
+	  //printf("%s", source_string);
+	  ntoken = lexer(source_string, maintoken);
+	  for (int i = 0; i < ntoken; i++) {
 		printf("%s: ", typedebug[maintoken[i].ttype]);
 		printf("%s\n", maintoken[i].lexeme);
-	}
-    parser(maintoken, ntoken);
+	  }
+
+    struct AST_node_program* ast = parser(maintoken, ntoken);
+
+    handler_ast(ast);
 
     printf("parser is successful!\n");
 	return 0;

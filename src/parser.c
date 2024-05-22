@@ -21,7 +21,6 @@ int identifiler(struct Token *token);
 int parameters(struct Token *token);
 struct AST_node_stmt *stmt(struct Token *token);
 struct AST_node_func_paras *paras(struct Token *token);
-int para_list(struct Token *token);
 int param(struct Token *token);
 int _para_list(struct Token *token);
 /*
@@ -48,19 +47,19 @@ struct AST_node_state_dec *state_dec(struct Token *token);
 struct AST_node_state_let *state_let(struct Token *token);
 struct AST_node_state *state_switch(struct Token *token);
 struct AST_node_state_return*state_return(struct Token *token);
-int program(struct Token *token, struct AST_node_program *program_node);
+struct AST_node_program *program(struct Token *token, struct AST_node_program *program_node);
 
-int program(struct Token *token, struct AST_node_program *program_node)
+struct AST_node_program *program(struct Token *token, struct AST_node_program *program_node)
 {
     program_node->basis = malloc(sizeof(struct AST_node));
-	program_node->basis->type = PROGRAM;
-	program_node->dec = declaration_list(token);
-	if (curtoken != -1) {
-		return curtoken;
-	} else {
-		errormsg("program");
-	}
-	return curtoken;
+	  program_node->basis->type = PROGRAM;
+	  program_node->dec = declaration_list(token);
+	  if (curtoken != -1) {
+		    return program_node;
+	  } else {
+		    errormsg("program");
+	  }
+	  return program_node;
 }
 
 struct AST_node_declaration_list *declaration_list(struct Token *token) {
@@ -770,7 +769,7 @@ struct AST_node_state_for *state_for(struct Token *token) {
 
     return for_node;
 }
-int parser(struct Token *token, int ntoken)
+struct AST_node_program* parser(struct Token *token, int ntoken)
 {
 	maxtoken = ntoken;
 	struct AST_node_program *program_node = malloc(sizeof(struct AST_node_program));
