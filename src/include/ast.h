@@ -4,6 +4,13 @@ enum AST_node_type {PROGRAM, DECLARATION_LIST, VAR_DEC, FUNC_DEC, PARAMS, STATE,
 enum func_type_enum {VOID = 0, CHAR, SHORT, INT, LONG};
 enum var_type_enum {VCHAR = 0, VSHORT, VINT, VLONG};
 enum state_type_enum {INIT, LET, IF, FOR, RETURN};
+struct emit_node{
+    int no;
+    char *op;
+    char *arg1;
+    char *arg2;
+    char *result;
+};
 struct AST_node {
     enum AST_node_type type;
 };

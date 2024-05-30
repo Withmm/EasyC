@@ -572,7 +572,6 @@ struct AST_node_expr_t *expr_t(struct Token *token)
 	if (token[curtoken].ttype == Constant) {
         expr_t_node->type = CONSTANT;
         expr_t_node->data.val = atoi(token[curtoken].lexeme);
-        printf("val = %d\n", expr_t_node->data.val);
         curtoken++;
 		return expr_t_node;
 	}
