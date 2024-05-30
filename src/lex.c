@@ -88,10 +88,8 @@ int lexer(char *file_lexeme, struct Token *maintoken)
 				break;
 			} else if(is_loperator(first_char, loperator)){
 				token.ttype = Operator;
-				if (is_loperator(*pchar, loperator))
-					token.lexeme[shift++] = *pchar++;
-				else 
-					break;
+				token.lexeme[shift++] = *pchar++;
+				break;
 				
 			} else if (is_letter(first_char)) {
 				token.ttype = Identifier;

@@ -4,6 +4,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#define DEBUG printf
 void errormsg(const char *str)
 {
 	fprintf(stderr, "%s: error\n", str);
@@ -431,7 +432,7 @@ struct AST_node_state *state(struct Token *token)
 struct AST_node_state_dec *state_dec(struct Token *token)
 {
     struct AST_node_state_dec *state_dec_node = malloc(sizeof (struct AST_node_state_dec));
-    state_dec_node->init_val = 0;
+    state_dec_node->init_val = NULL;
 	// int
 	switch(token[curtoken].ttype) {
 
@@ -466,6 +467,7 @@ struct AST_node_state_dec *state_dec(struct Token *token)
 	if (strcmp(token[curtoken].lexeme, ";") == 0) {
 	// ;
 		curtoken++;
+        state_dec_node->init_val = 0;
 		return state_dec_node;
 	}
 	// =
@@ -530,14 +532,12 @@ struct AST_node_state_let *state_let(struct Token *token)
     return state_let_node;
     
 }
-
 struct AST_node_expr *expr(struct Token *token) {
     struct AST_node_expr *node = malloc(sizeof(struct AST_node_expr));
     node->expr_T = expr_T(token);
     node->expr_ = _expr(token);
     return node;
 }
-
 struct AST_node_expr_ *_expr(struct Token *token) {
     if (strcmp(token[curtoken].lexeme, "+") == 0 || strcmp(token[curtoken].lexeme, "-") == 0) {
         struct AST_node_expr_ *node = malloc(sizeof(struct AST_node_expr_));
@@ -555,7 +555,6 @@ struct AST_node_expr_T *expr_T(struct Token *token) {
     node->expr_T_ = expr_T_(token);
     return node;
 }
-
 struct AST_node_expr_T_ *expr_T_(struct Token *token) {
     if (strcmp(token[curtoken].lexeme, "*") == 0 || strcmp(token[curtoken].lexeme, "/") == 0) {
         struct AST_node_expr_T_ *node = malloc(sizeof(struct AST_node_expr_T_));
@@ -567,13 +566,13 @@ struct AST_node_expr_T_ *expr_T_(struct Token *token) {
     }
     return NULL; // Indicating no further continuation
 }
-
 struct AST_node_expr_t *expr_t(struct Token *token)
 {
     struct AST_node_expr_t *expr_t_node = malloc(sizeof(struct AST_node_expr_t));
 	if (token[curtoken].ttype == Constant) {
         expr_t_node->type = CONSTANT;
         expr_t_node->data.val = atoi(token[curtoken].lexeme);
+        printf("val = %d\n", expr_t_node->data.val);
         curtoken++;
 		return expr_t_node;
 	}
@@ -695,7 +694,6 @@ struct AST_node_condition *expr_bool(struct Token *token) {
     }
 
     cond_node->left = expr(token);  // Parse left-hand side expression
-
     if (strcmp(token[curtoken].lexeme, ">") == 0) {
         if (strcmp(token[curtoken + 1].lexeme, "=") == 0) {
             cond_node->op = strdup(">=");

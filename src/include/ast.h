@@ -106,28 +106,33 @@ struct AST_node_state_dec {
 };
 
 struct AST_node_expr {  //E
+    int val;
     struct AST_node_expr_T *expr_T;
     struct AST_node_expr_ *expr_;
 };
 
 struct AST_node_expr_ { //E'
     char op;
+    int val;
     struct AST_node_expr_T *expr_T;
     struct AST_node_expr_ *expr_;
 };
 
 struct AST_node_expr_T { //T
+    int val;
     struct AST_node_expr_t *expr_t;
     struct AST_node_expr_T_ *expr_T_;
 };
 struct AST_node_expr_T_ { //T'
     char op;
+    int val;
     struct AST_node_expr_t *expr_t;
     struct AST_node_expr_T_ *expr_T_;
 };
 
 struct AST_node_expr_t { //F
     enum { CONSTANT, VARIABLE, FUNCTION_CALL, PARENTHESIZED_EXPR } type;
+    int val;
     union {
         int val; // For constants
         char *var_name; // For variables
@@ -140,6 +145,7 @@ struct AST_node_func_call {
     struct AST_node_expr **params; // Array of pointers to parameters (expressions)
     int params_count;             // Number of parameters
     int params_capacity;          // Capacity of the parameters array
+    int ret_val;
 };
 
 struct AST_node_condition {

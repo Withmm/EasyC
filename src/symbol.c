@@ -12,7 +12,7 @@ unsigned int hash(char *name) {
     return hash_value % TABLE_SIZE;
 }
 
-symbol_table_entry *create_symbol_table_entry(char *name, char *type, char *scope, int address) {
+symbol_table_entry *create_symbol_table_entry(char *name, char *type, char *scope, long address) {
     symbol_table_entry *new_entry = (symbol_table_entry *)malloc(sizeof(symbol_table_entry));
     new_entry->name = strdup(name);
     new_entry->type = strdup(type);
@@ -22,10 +22,14 @@ symbol_table_entry *create_symbol_table_entry(char *name, char *type, char *scop
     return new_entry;
 }
 
-void insert_symbol(symbol_table_entry **symbol_table,char *name, char *type, char *scope, int address) {
+void insert_symbol(symbol_table_entry **symbol_table,char *name, char *type, char *scope, long address) {
     unsigned int index = hash(name);
+    printf("index = %u ", index);
+    printf("name = %s ", name);
+    printf("type = %s ", type);
+    printf("scope = %s ", scope);
+    printf("address = %p\n", (void *)address);
     symbol_table_entry *new_entry = create_symbol_table_entry(name, type, scope, address);
-
     if (symbol_table[index] == NULL) {
         symbol_table[index] = new_entry;
     } else {
@@ -37,11 +41,17 @@ void insert_symbol(symbol_table_entry **symbol_table,char *name, char *type, cha
     }
 }
 
-symbol_table_entry *find_symbol(symbol_table_entry **symbol_table, char *name) {
+symbol_table_entry *find_symbol(symbol_table_entry **symbol_table, char *name, char *scope) {
     unsigned int index = hash(name);
     symbol_table_entry *current = symbol_table[index];
     while (current != NULL) {
-        if (strcmp(current->name, name) == 0) {
+        if (strcmp(current->name, name) == 0 && strcmp(current->scope, scope) == 0) {
+            return current;
+        }
+        current = current->next;
+    }
+    while (current != NULL) {
+        if (strcmp(current->name, name) == 0 && strcmp(current->scope, "global") == 0) {
             return current;
         }
         current = current->next;
@@ -79,17 +89,10 @@ void print_symbol_table(symbol_table_entry **symbol_table) {
     for (int i = 0; i < TABLE_SIZE; i++) {
         symbol_table_entry *current = symbol_table[i];
         while (current != NULL) {
-            printf("Name: %s, Type: %s, Scope: %s, Address: %d\n", current->name, current->type, current->scope, current->address);
+            printf("Name: %s, Type: %s, Scope: %s, Address: %p\n", current->name, current->type, current->scope, (void *)current->address);
             current = current->next;
         }
     }
 }
 
-
-void init_symbol_table(symbol_table_entry **table, int table_size)
-{
-    for (int i = 0; i < table_size; i++) {
-        table[i] = create_symbol_table_entry("nothing", "nothing", "nothing", 0);
-    }
-}
 
