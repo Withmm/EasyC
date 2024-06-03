@@ -24,11 +24,13 @@ symbol_table_entry *create_symbol_table_entry(char *name, char *type, char *scop
 
 void insert_symbol(symbol_table_entry **symbol_table,char *name, char *type, char *scope, long address) {
     unsigned int index = hash(name);
+    /*
     printf("index = %u ", index);
     printf("name = %s ", name);
     printf("type = %s ", type);
     printf("scope = %s ", scope);
     printf("address = %p\n", (void *)address);
+    */
     symbol_table_entry *new_entry = create_symbol_table_entry(name, type, scope, address);
     if (symbol_table[index] == NULL) {
         symbol_table[index] = new_entry;

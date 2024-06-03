@@ -5,7 +5,6 @@
 #include <stdlib.h>
 
 #define DEBUG printf
-#define EMITSMAX 1024
 
 char *strdup(const char *src);
 
@@ -112,7 +111,6 @@ void walk_func_dec(struct AST_node_func_dec* func_dec)
 }
 void walk_program(struct AST_node_program* pro) {
     walk_declation_list(pro->dec);
-    print_emit();
 }
 
 void walk_stmt(struct AST_node_stmt* stmt, char *scope, long para_addr) // in function
@@ -380,7 +378,10 @@ int function_call(struct AST_node_func_call *func, char *scope, long addr)
     if (func_p == NULL) {
         printf("Undefined function name -> %s\n", func->func_name);
     }
-    emit("call", NULL, NULL, func->func_name);
+    char addr_buff[16];
+    memset(addr_buff, 0, 16);
+    sprintf(addr_buff, "%ld", func_p->address);
+    emit("j", NULL, NULL, addr_buff);
     return 0;
 }
 

@@ -12,11 +12,14 @@ if compile_result.returncode == 0:
     for file in test_files:
         print("Parsing file:", file)
 
-        parse_result = subprocess.run(["./main", file], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+        output_filename = os.path.join("..", "easyc", os.path.splitext(os.path.basename(file))[0] + ".easyc")
+        with open(output_filename, 'w') as output_file:
+            parse_result = subprocess.run(["./main", file], stdout=output_file, stderr=subprocess.PIPE)
+        
         if parse_result.returncode == 0:
-            print("Parsing successful")
+            print(f"Parsing successful, output saved to {output_filename}")
         else:
-            print("Parsing failed")
+            print(f"Parsing failed for {file}, error: {parse_result.stderr.decode('utf-8')}")
 
         print()
 else:
