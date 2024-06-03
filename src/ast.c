@@ -3,19 +3,23 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
+
 #define DEBUG printf
 #define EMITSMAX 1024
+
 char *strdup(const char *src);
+
 symbol_table_entry *symbol_t[TABLE_SIZE];
 struct emit_node *emits[EMITSMAX];
+struct AST_node_func_dec *current_func;
 int pc = 1;
-int data_p = 0xffff;
-int paras_p = 0xffffff;
-int paras_data[4096];
+long data_p = 0xffff;
+long paras_p = 0xffffff;
+long paras_data[4096];
 int data[4096];
 int scope_count;
 int emit_count;
-int tmp_count;
+int temp_var_count;
 static const char *var_type_str[4] = {
     "char",
     "short",
@@ -29,22 +33,27 @@ static const char *func_type_str[5] = {
     "int",
     "long",
 };
-static inline void put_digital(int val, int address);
+static inline char *new_temp();
+static inline void backfill();
+static inline void jmp_emit_helper(char *eft_val, char *right_val, char *op);
+static inline void put_digital(int val, long address);
 static inline int  get_digital(long address);
 static inline void put_paras_data(int val, long address);
 static inline int  get_paras_data(long address);
+static int for_helper(struct AST_node_state_for *for_node, char *scope, long addr);
+static int if_helper(struct AST_node_state_if *if_node, char *scope, long addr);
 void emit(char *op, char *arg1, char *arg2, char *result);
 void print_emit();
 void walk_program(struct AST_node_program* pro);
 void walk_declation_list(struct AST_node_declaration_list* dec_list);
 void walk_func_dec(struct AST_node_func_dec* func_dec);
-void walk_stmt(struct AST_node_stmt *stmt, char *scope);
-int  walk_expr(struct AST_node_expr *expr, char *scope);
-int  walk_expr_(struct AST_node_expr_ *expr_, char *scope);
-int  walk_expr_T(struct AST_node_expr_T *expr_T, char *scope);
-int  walk_expr_T_(struct AST_node_expr_T_ *expr_T_, char *scope);
-int  walk_expr_t(struct AST_node_expr_t *expr_t, char *scope);
-int  function_call(struct AST_node_func_call *func);
+void walk_stmt(struct AST_node_stmt *stmt, char *scope, long addr);
+int  walk_expr(struct AST_node_expr *expr, char *scope, long addr, char *tmp);
+int  walk_expr_(struct AST_node_expr_ *expr_, char *scope, long addr, char *tmp);
+int  walk_expr_T(struct AST_node_expr_T *expr_T, char *scope, long addr, char *tmp);
+int  walk_expr_T_(struct AST_node_expr_T_ *expr_T_, char *scope, long addr, char *tmp);
+int  walk_expr_t(struct AST_node_expr_t *expr_t, char *scope, long addr, char *tmp);
+int  function_call(struct AST_node_func_call *func, char *scope, long addr);
 void walk_declation_list(struct AST_node_declaration_list* dec_list) {
     for (int i = 0; i < dec_list->count; i++) {
         if (dec_list->declarations[i]->basis->type == VAR_DEC) { // global var_declaration
@@ -84,16 +93,22 @@ void walk_declation_list(struct AST_node_declaration_list* dec_list) {
 
 void walk_func_dec(struct AST_node_func_dec* func_dec)
 {
+    func_dec->para_addr = paras_p;
     for (int i = 0; i < func_dec->params->paras_count; i++) {
+        char tmp_name[16] = "a\0";
+        char to_add[16];
+        memset(to_add, 0, 8);
+        sprintf(to_add, "%d", i);
+        strncat(tmp_name, to_add, 8);
         insert_symbol(symbol_t,
-                func_dec->params->paras_name[i], 
+                tmp_name, 
                 (char *)var_type_str[func_dec->params->paras_type[i]],
                 func_dec->func_name,
                 paras_p);
         paras_p++;
     }
-
-    walk_stmt(func_dec->stmt, func_dec->func_name);
+    current_func = func_dec;
+    walk_stmt(func_dec->stmt, func_dec->func_name, func_dec->para_addr);
 
 }
 void walk_program(struct AST_node_program* pro) {
@@ -101,7 +116,7 @@ void walk_program(struct AST_node_program* pro) {
     print_emit();
 }
 
-void walk_stmt(struct AST_node_stmt* stmt, char *scope) // in function
+void walk_stmt(struct AST_node_stmt* stmt, char *scope, long para_addr) // in function
 {
     //DEBUG("stmt: state_count-> %ld", stmt->state_count);
     if (scope == NULL) {
@@ -128,152 +143,209 @@ void walk_stmt(struct AST_node_stmt* stmt, char *scope) // in function
                 put_digital(0, data_p);
                 data_p++;
             } else { //int x = expr();
-                int expr_val = walk_expr(state_tmp->real_state.real_dec->init_val, scope);
-                char buf[16];
-                memset(buf, 0, 16);
-                sprintf(buf, "%d", expr_val);
-                emit("=", buf, NULL, state_tmp->real_state.real_dec->var_name);
+                char *result = new_temp();
+                walk_expr(state_tmp->real_state.real_dec->init_val, scope, para_addr, result);
+                emit("=", result, NULL, state_tmp->real_state.real_dec->var_name);
                 insert_symbol(symbol_t,
                         state_tmp->real_state.real_dec->var_name,
                         (char *)var_type_str[state_tmp->real_state.real_dec->var_type],
                         scope,
                         data_p
                       );
-                put_digital(expr_val, data_p);
                 data_p++;
             }
             break;
         case LET: 
             (void) stmt; //modify warning
-            long addr = find_symbol(symbol_t, state_tmp->real_state.real_let->var_name, scope)->address;
-            int expr_val = walk_expr(state_tmp->real_state.real_let->var_expr, scope);
+            symbol_table_entry *p = find_symbol(symbol_t, state_tmp->real_state.real_let->var_name, scope);
+            if (p == NULL) {
+                int find = 0;
+                for (int i = 0; i < current_func->params->paras_count; i++) { //paras
+                    if (strcmp(current_func->params->paras_name[i], state_tmp->real_state.real_let->var_name) == 0) {
+                        char tmp_name[16] = "a\0";
+                        char name_buf[16];
+                        memset(name_buf, 0, 16);
+                        sprintf(name_buf, "%d", i);
+                        strncat(tmp_name, name_buf, 8);
+                        int expr_val = walk_expr(state_tmp->real_state.real_let->var_expr, scope, para_addr, new_temp());
+                        char buf[16];
+                        memset(buf, 0, 16);
+                        sprintf(buf, "%d", expr_val);
+                        put_paras_data(expr_val, para_addr + i);
+                        emit("=", buf, NULL, tmp_name);
+                        find = 1;
+                        break;
+                    }
+                }
+                if (find)
+                    break;
+                printf("Undefined variable -> %s\n", state_tmp->real_state.real_let->var_name);
+                exit(-1);
+            }
+            // stack 
+            long addr = p->address;
+            int expr_val = walk_expr(state_tmp->real_state.real_let->var_expr, scope, addr, new_temp());
             char buf[16];
             memset(buf, 0, 16);
             sprintf(buf, "%d", expr_val);
-            put_paras_data(expr_val, addr);
-            emit("=", buf, NULL, state_tmp->real_state.real_let->var_name); 
+            if (addr >= 0xffffff) {
+                printf("unexpected error\n");
+            } else {
+                put_digital(expr_val, addr);
+                emit("=", buf, NULL, state_tmp->real_state.real_let->var_name); 
+            }
             break;
         case IF:
-            (void) stmt;
-            /*
-            struct AST_node_expr *left, *right;
-            char *op = state_tmp->real_state.real_if->condition->op;
-            left = state_tmp->real_state.real_if->condition->left;
-            right = state_tmp->real_state.real_if->condition->right;
-            */
+            if_helper(state_tmp->real_state.real_if, scope, addr);
             break;
         case FOR:
+            for_helper(state_tmp->real_state.real_for, scope, addr);
             break;
         case RETURN:
             break;
         }
     }
 }
-int walk_expr(struct AST_node_expr *expr, char *scope) {
-    if (expr == NULL) return 0;
+char* new_temp() {
+    char* temp = malloc(20);
+    sprintf(temp, "t%d", temp_var_count++);
+    return temp;
+}
 
-    int val_T = walk_expr_T(expr->expr_T, scope);
+
+int walk_expr(struct AST_node_expr *expr, char *scope, long addr, char *result) {
+
+    if (expr == NULL) return 0;
+    char *tmp2 = new_temp();
+    int val_T = walk_expr_T(expr->expr_T, scope, addr, tmp2);
 
     struct AST_node_expr_ *current_expr_ = expr->expr_;
     while (current_expr_) {
-        int val_E_ = walk_expr_T(current_expr_->expr_T, scope);
+        char *tmp = new_temp();
+        int val_E_ = walk_expr_T(current_expr_->expr_T, scope, addr, tmp);
         if (current_expr_->op == '+') {
-            printf("%d + %d\n", val_T, val_E_);
             val_T += val_E_;
+            emit("+", tmp2, tmp, result);
         } else if (current_expr_->op == '-') {
-            printf("%d - %d\n", val_T, val_E_);
             val_T -= val_E_;
+            emit("-", tmp2, tmp, result);
         }
+        strcpy(tmp2, result);
         current_expr_ = current_expr_->expr_;
     }
 
     expr->val = val_T;
+    emit("=", tmp2, NULL, result);
     return expr->val;
 }
 
-int walk_expr_(struct AST_node_expr_ *expr_, char *scope) {
+int walk_expr_(struct AST_node_expr_ *expr_, char *scope, long addr, char *result) {
     if (expr_ == NULL) return 0;
-
-    int val_T = walk_expr_T(expr_->expr_T, scope);
+    char *tmp2 = new_temp();
+    int val_T = walk_expr_T(expr_->expr_T, scope, addr, tmp2);
 
     struct AST_node_expr_ *current_expr_ = expr_->expr_;
     while (current_expr_) {
-        int val_E_ = walk_expr_T(current_expr_->expr_T, scope);
+        char *tmp = new_temp();
+        int val_E_ = walk_expr_T(current_expr_->expr_T, scope, addr, tmp);
         if (current_expr_->op == '+') {
-            printf("%d + %d\n", val_T, val_E_);
             val_T += val_E_;
+            emit("+", tmp2, tmp, result);
         } else if (current_expr_->op == '-') {
-            printf("%d - %d\n", val_T, val_E_);
             val_T -= val_E_;
+            emit("-", tmp2, tmp, result);
         }
+        strcpy(tmp2, result);
         current_expr_ = current_expr_->expr_;
     }
 
     expr_->val = val_T;
+    emit("=", tmp2, NULL, result);
     return expr_->val;
 }
 
-int walk_expr_T(struct AST_node_expr_T *expr_T, char *scope) {
+int walk_expr_T(struct AST_node_expr_T *expr_T, char *scope, long addr, char *result) {
     if (expr_T == NULL) return 0;
-
-    int val_t = walk_expr_t(expr_T->expr_t, scope);
+    char *tmp2 = new_temp();
+    int val_t = walk_expr_t(expr_T->expr_t, scope, addr, tmp2);
 
     struct AST_node_expr_T_ *current_expr_T_ = expr_T->expr_T_;
     while (current_expr_T_) {
-        int val_T_ = walk_expr_t(current_expr_T_->expr_t, scope);
+        char *tmp = new_temp();
+        int val_T_ = walk_expr_t(current_expr_T_->expr_t, scope, addr, tmp);
         if (current_expr_T_->op == '*') {
-            printf("%d * %d\n", val_t, val_T_);
             val_t *= val_T_;
+            emit("*", tmp2, tmp, result);
         } else if (current_expr_T_->op == '/') {
-            printf("%d / %d\n", val_t, val_T_);
             val_t /= val_T_;
+            emit("/", tmp2, tmp, result);
         }
+        strcpy(tmp2, result);
         current_expr_T_ = current_expr_T_->expr_T_;
     }
 
     expr_T->val = val_t;
+    emit("=", tmp2, NULL, result);
     return expr_T->val;
 }
 
-int walk_expr_T_(struct AST_node_expr_T_ *expr_T_, char *scope) {
+int walk_expr_T_(struct AST_node_expr_T_ *expr_T_, char *scope, long addr, char *result) {
     if (expr_T_ == NULL) return 0;
-
-    int val_t = walk_expr_t(expr_T_->expr_t, scope);
-
+    char *tmp2 = new_temp();
+    int val_t = walk_expr_t(expr_T_->expr_t, scope, addr, tmp2);
     struct AST_node_expr_T_ *current_expr_T_ = expr_T_->expr_T_;
     while (current_expr_T_) {
-        int val_T_ = walk_expr_t(current_expr_T_->expr_t, scope);
+        char *tmp = new_temp();
+        int val_T_ = walk_expr_t(current_expr_T_->expr_t, scope, addr, tmp);
         if (current_expr_T_->op == '*') {
-            printf("%d * %d\n", val_t, val_T_);
             val_t *= val_T_;
+            emit("*", tmp2, tmp, result);
         } else if (current_expr_T_->op == '/') {
-            printf("%d / %d\n", val_t, val_T_);
             val_t /= val_T_;
+            emit("/", tmp2, tmp, result);
         }
+        strcpy(tmp2, result);
         current_expr_T_ = current_expr_T_->expr_T_;
     }
 
     expr_T_->val = val_t;
+    emit("=", tmp2, NULL, result);
     return expr_T_->val;
 }
 
-int walk_expr_t(struct AST_node_expr_t *expr_t, char *scope) {
+int walk_expr_t(struct AST_node_expr_t *expr_t, char *scope, long addr, char *result) {
     if (expr_t == NULL) return 0;
 
     switch (expr_t->type) {
         case CONSTANT:
             expr_t->val = expr_t->data.val;
+            sprintf(result, "%d", expr_t->val);
             break;
         case VARIABLE:
-            expr_t->val = find_symbol(symbol_t, expr_t->data.var_name, scope)->address >= 0xffffff 
-                        ? get_paras_data(find_symbol(symbol_t, expr_t->data.var_name, scope)->address) 
-                        : get_digital(find_symbol(symbol_t, expr_t->data.var_name, scope)->address);
+            (void)scope;
+            symbol_table_entry *p = find_symbol(symbol_t, expr_t->data.var_name, scope);
+            if (p == NULL) {
+                int find = 0;
+                for (int i = 0; i < current_func->params->paras_count; i++) { //paras
+                    if (strcmp(current_func->params->paras_name[i], expr_t->data.var_name) == 0) {
+                        find = 1;
+                        break;
+                    }
+                }
+                if (find)
+                    break;
+                printf("Undefined variable -> %s\n", expr_t->data.var_name);
+                exit(-1);
+            }
+            sprintf(result, expr_t->data.var_name);
             break;
         case FUNCTION_CALL:
-            expr_t->val = function_call(expr_t->data.func_call);
+            expr_t->val = function_call(expr_t->data.func_call, scope, addr);
             break;
         case PARENTHESIZED_EXPR:
-            expr_t->val = walk_expr(expr_t->data.expr, scope);
+            char *tmp = new_temp();
+            expr_t->val = walk_expr(expr_t->data.expr, scope, addr, tmp);
+            emit("=", tmp, NULL, result);
             break;
         default:
             printf("Unknown expression type in walk_expr_t");
@@ -282,7 +354,6 @@ int walk_expr_t(struct AST_node_expr_t *expr_t, char *scope) {
 
     return expr_t->val;
 }
-
 void handler_ast(struct AST_node_program* pro) {
     //init_symbol_table(symbol_t, TABLE_SIZE);
 
@@ -290,9 +361,23 @@ void handler_ast(struct AST_node_program* pro) {
     return;
 }
 
-int function_call(struct AST_node_func_call *func)
+int function_call(struct AST_node_func_call *func, char *scope, long addr)
 {
-    (void)func;
+    for (int i = 0; i < func->params_count; i++) {
+        char tmp_name[16] = "a\0";
+        char to_add[16];
+        memset(to_add, 0, 8);
+        sprintf(to_add, "%d", i);
+        strncat(tmp_name, to_add, 8);
+        char *tmp = new_temp();
+        walk_expr(func->params[i], scope, addr, tmp);
+        emit("=", tmp, NULL, tmp_name);
+    }
+    symbol_table_entry *func_p = find_symbol(symbol_t, func->func_name, "global");
+    if (func_p == NULL) {
+        printf("Undefined function name -> %s\n", func->func_name);
+    }
+    emit("call", NULL, NULL, func->func_name);
     return 0;
 }
 
@@ -302,6 +387,12 @@ void emit(char* op, char* arg1, char* arg2, char* result) {
     node->arg1 = arg1 ? strdup(arg1) : NULL;
     node->arg2 = arg2 ? strdup(arg2) : NULL;
     node->result = result ? strdup(result) : NULL;
+    
+    if (node->op && node->arg1 && node->result && strcmp(node->arg1, node->result) == 0 && strcmp(node->op, "=") == 0) {
+        free(node);
+        return ;
+    }
+    
     node->no = pc++;
     emits[emit_count++] = node;
 }
@@ -315,15 +406,14 @@ void print_emit()
                 tmp->result ? tmp->result : "_");
     }
 }
-static inline void put_digital(int val, int address)
+static inline void put_digital(int val, long address)
 {
     data[address - 0xffff] = val;
-    data_p++;
 }
 
 static inline int get_digital(long address)
 {
-    return data[address];
+    return data[address - 0xffff];
 }
 
 static inline int get_paras_data(long address)
@@ -334,4 +424,77 @@ static inline int get_paras_data(long address)
 static inline void put_paras_data(int val, long address)
 {
     paras_data[address - 0xffffff] = val;
+}
+
+static int if_helper(struct AST_node_state_if *if_node, char *scope, long addr)
+{
+    struct AST_node_expr *left, *right;
+    char *op = if_node->condition->op;
+    left = if_node->condition->left;
+    right = if_node->condition->right;
+    char *tmp1 = new_temp();
+    char *tmp2 = new_temp();
+    walk_expr(left, scope, addr, tmp1);
+    walk_expr(right, scope, addr, tmp2);
+    jmp_emit_helper(tmp1, tmp2, op);
+    walk_stmt(if_node->if_body, scope, addr);
+    if (if_node->else_body) {
+        emit("j", NULL, NULL, "todo");
+        backfill();
+        walk_stmt(if_node->else_body, scope, addr);
+        backfill();
+    } else {
+        backfill();
+    }
+    return 0;
+}
+static int for_helper(struct AST_node_state_for *for_node, char *scope, long addr)
+{
+    struct AST_node_state_dec *init = for_node->init;
+    char *tmp = new_temp();
+    walk_expr(init->init_val, scope, addr, tmp);
+    emit("=", tmp, NULL, init->var_name);
+    insert_symbol(symbol_t, init->var_name, (char *)var_type_str[init->var_type], scope, addr);
+    struct AST_node_condition *cond = for_node->cond;
+    char *tmp1 = new_temp();
+    char *tmp2 = new_temp();
+    walk_expr(cond->left, scope, addr, tmp1);
+    walk_expr(cond->right, scope, addr, tmp2);
+    jmp_emit_helper(tmp1, tmp2, cond->op);
+    struct AST_node_stmt *stmt = for_node->body;
+    walk_stmt(stmt, scope, addr);
+    struct AST_node_state_let *update = for_node->update;
+    char *tmp3 = new_temp();
+    walk_expr(update->var_expr, scope, addr, tmp3);
+    emit("=", tmp3, NULL, update->var_name);
+    backfill();
+    return 0;
+}
+static inline void jmp_emit_helper(char *left_buf, char *right_buf, char *op)
+{
+        if (strcmp(op, ">") == 0) {
+            emit("j<=", left_buf, right_buf, "todo"); 
+        } else if (strcmp(op, "<") == 0) {
+            emit("j>=", left_buf, right_buf, "todo"); 
+        } else if (strcmp(op, ">=") == 0) {
+            emit("j<", left_buf, right_buf, "todo"); 
+        } else if (strcmp(op, "<=") == 0) {
+            emit("j>", left_buf, right_buf, "todo"); 
+        } else if (strcmp(op, "==") == 0) {
+            emit("j!=", left_buf, right_buf, "todo"); 
+        } else if (strcmp(op, "!=") == 0) {
+            emit("j==", left_buf, right_buf, "todo");     
+        }
+}
+static inline void backfill()
+{
+    for (int i = pc - 3; i >= 0; i--) {
+        if (strcmp(emits[i]->result, "todo") == 0) {
+            char buf[16];
+            memset(buf, 0, 16);
+            sprintf(buf, "%d", pc);
+            memset(emits[i]->result, 0, 4);
+            strncpy(emits[i]->result, buf, 8);
+        }
+    }
 }

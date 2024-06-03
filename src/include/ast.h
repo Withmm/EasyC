@@ -49,6 +49,7 @@ struct AST_node_func_dec {
     struct func_symbol *sym;
     struct AST_node_func_paras *params; 
     struct AST_node_stmt *stmt;
+    long para_addr;
 };
 
 struct func_symbol {
@@ -69,6 +70,7 @@ struct AST_node_stmt {
     long state_count;
     long state_capacity;
     struct AST_node_state **state;
+    struct AST_node_func_dec *from;
 };
 
 struct AST_node_state {
@@ -81,12 +83,14 @@ struct AST_node_state {
         struct AST_node_state_dec *real_dec; // int x; || int x = 0;
         struct AST_node_state_let *real_let; // x = y;
     }real_state;
+    struct AST_node_func_dec *from;
 };
 
 struct AST_node_state_if {
     struct AST_node_condition *condition;
     struct AST_node_stmt *if_body;
     struct AST_node_stmt *else_body;
+    struct AST_node_func_dec *from;
 };
 
 struct AST_node_state_for {
@@ -94,28 +98,33 @@ struct AST_node_state_for {
     struct AST_node_condition *cond;    // Condition
     struct AST_node_state_let *update;       // Update expression
     struct AST_node_stmt *body;         // Loop body
+    struct AST_node_func_dec *from;
 };
 
 
 struct AST_node_state_return {
     struct AST_node_expr *ret_val;
+    struct AST_node_func_dec *from;
 };
 
 struct AST_node_state_let {
     char *var_name;
     struct AST_node_expr *var_expr;
+    struct AST_node_func_dec *from;
 };
 
 struct AST_node_state_dec {
     enum var_type_enum var_type;
     struct AST_node_expr *init_val;
     char *var_name;
+    struct AST_node_func_dec *from;
 };
 
 struct AST_node_expr {  //E
     int val;
     struct AST_node_expr_T *expr_T;
     struct AST_node_expr_ *expr_;
+    struct AST_node_func_dec *from;
 };
 
 struct AST_node_expr_ { //E'
@@ -123,18 +132,21 @@ struct AST_node_expr_ { //E'
     int val;
     struct AST_node_expr_T *expr_T;
     struct AST_node_expr_ *expr_;
+    struct AST_node_func_dec *from;
 };
 
 struct AST_node_expr_T { //T
     int val;
     struct AST_node_expr_t *expr_t;
     struct AST_node_expr_T_ *expr_T_;
+    struct AST_node_func_dec *from;
 };
 struct AST_node_expr_T_ { //T'
     char op;
     int val;
     struct AST_node_expr_t *expr_t;
     struct AST_node_expr_T_ *expr_T_;
+    struct AST_node_func_dec *from;
 };
 
 struct AST_node_expr_t { //F
@@ -146,6 +158,7 @@ struct AST_node_expr_t { //F
         struct AST_node_func_call *func_call;
         struct AST_node_expr *expr; // For parenthesized expressions
     } data;
+    struct AST_node_func_dec *from;
 };
 struct AST_node_func_call {
     char *func_name;              // Name of the function
