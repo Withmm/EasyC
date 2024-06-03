@@ -37,11 +37,10 @@ static inline char *new_temp();
 static inline void backfill();
 static inline void jmp_emit_helper(char *eft_val, char *right_val, char *op);
 static inline void put_digital(int val, long address);
-static inline int  get_digital(long address);
 static inline void put_paras_data(int val, long address);
-static inline int  get_paras_data(long address);
 static int for_helper(struct AST_node_state_for *for_node, char *scope, long addr);
 static int if_helper(struct AST_node_state_if *if_node, char *scope, long addr);
+static int return_helper(struct AST_node_state_return *return_node, char *scope, long addr);
 void emit(char *op, char *arg1, char *arg2, char *result);
 void print_emit();
 void walk_program(struct AST_node_program* pro);
@@ -202,6 +201,7 @@ void walk_stmt(struct AST_node_stmt* stmt, char *scope, long para_addr) // in fu
             for_helper(state_tmp->real_state.real_for, scope, addr);
             break;
         case RETURN:
+            return_helper(state_tmp->real_state.real_return, scope, addr);
             break;
         }
     }
@@ -328,6 +328,7 @@ int walk_expr_t(struct AST_node_expr_t *expr_t, char *scope, long addr, char *re
                 int find = 0;
                 for (int i = 0; i < current_func->params->paras_count; i++) { //paras
                     if (strcmp(current_func->params->paras_name[i], expr_t->data.var_name) == 0) {
+                        sprintf(result, "a%d", i);
                         find = 1;
                         break;
                     }
@@ -337,12 +338,14 @@ int walk_expr_t(struct AST_node_expr_t *expr_t, char *scope, long addr, char *re
                 printf("Undefined variable -> %s\n", expr_t->data.var_name);
                 exit(-1);
             }
-            sprintf(result, expr_t->data.var_name);
+            sprintf(result, "%s", expr_t->data.var_name);
             break;
         case FUNCTION_CALL:
             expr_t->val = function_call(expr_t->data.func_call, scope, addr);
+            emit("=", "a7", NULL, result);
             break;
         case PARENTHESIZED_EXPR:
+            (void) result; //modify warning
             char *tmp = new_temp();
             expr_t->val = walk_expr(expr_t->data.expr, scope, addr, tmp);
             emit("=", tmp, NULL, result);
@@ -411,16 +414,6 @@ static inline void put_digital(int val, long address)
     data[address - 0xffff] = val;
 }
 
-static inline int get_digital(long address)
-{
-    return data[address - 0xffff];
-}
-
-static inline int get_paras_data(long address)
-{
-    return paras_data[address - 0xffffff];
-}
-
 static inline void put_paras_data(int val, long address)
 {
     paras_data[address - 0xffffff] = val;
@@ -458,6 +451,7 @@ static int for_helper(struct AST_node_state_for *for_node, char *scope, long add
     struct AST_node_condition *cond = for_node->cond;
     char *tmp1 = new_temp();
     char *tmp2 = new_temp();
+    int record = pc;
     walk_expr(cond->left, scope, addr, tmp1);
     walk_expr(cond->right, scope, addr, tmp2);
     jmp_emit_helper(tmp1, tmp2, cond->op);
@@ -467,9 +461,23 @@ static int for_helper(struct AST_node_state_for *for_node, char *scope, long add
     char *tmp3 = new_temp();
     walk_expr(update->var_expr, scope, addr, tmp3);
     emit("=", tmp3, NULL, update->var_name);
+    char buf[16];
+    memset(buf, 0, 16);
+    sprintf(buf, "%d", record);
+    emit("j", NULL, NULL, buf); 
     backfill();
     return 0;
 }
+
+static int return_helper(struct AST_node_state_return *return_node, char *scope, long addr)
+{
+    char *tmp = new_temp();
+    walk_expr(return_node->ret_val, scope, addr, tmp);
+    emit("=", tmp, NULL, "a7");
+    emit("ret", NULL, NULL, NULL);
+    return 0;
+}
+
 static inline void jmp_emit_helper(char *left_buf, char *right_buf, char *op)
 {
         if (strcmp(op, ">") == 0) {
@@ -488,13 +496,14 @@ static inline void jmp_emit_helper(char *left_buf, char *right_buf, char *op)
 }
 static inline void backfill()
 {
-    for (int i = pc - 3; i >= 0; i--) {
+    for (int i = emit_count - 3; i >= 0; i--) {
         if (strcmp(emits[i]->result, "todo") == 0) {
             char buf[16];
             memset(buf, 0, 16);
             sprintf(buf, "%d", pc);
             memset(emits[i]->result, 0, 4);
             strncpy(emits[i]->result, buf, 8);
+            break;
         }
     }
 }
