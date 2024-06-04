@@ -75,13 +75,10 @@ int lexer(char *file_lexeme, struct Token *maintoken)
 	char *pchar = file_lexeme;
 	while(*pchar) {
 		char first_char = *pchar;
-		//printf("out : *pchar = %c\n", *pchar);
-		//printf("*pchar = %c\n", *pchar);
 		struct Token token;
 		memset(token.lexeme, 0, 32);
 		int shift = 0;
 		while(1) {
-			//printf("in : *pchar = %c\n", *pchar);
 			if (first_char == '#') {
 				token.ttype = Preprocessor;
 				token.lexeme[shift++] = *pchar++;
@@ -123,7 +120,6 @@ int lexer(char *file_lexeme, struct Token *maintoken)
 				break;
 			}
 		}	
-		//printf("token.lexeme = %s\n", token.lexeme);
 		strcpy(maintoken[ntoken].lexeme, token.lexeme);
 		maintoken[ntoken].ttype = token.ttype;
 		if (isspace(maintoken[ntoken].lexeme[0]) || maintoken[ntoken].lexeme[0] == 0)

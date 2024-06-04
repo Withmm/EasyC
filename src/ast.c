@@ -32,7 +32,7 @@ static const char *func_type_str[5] = {
     "int",
     "long",
 };
-static inline char *new_temp();
+char *new_temp();
 static inline void backfill();
 static inline void jmp_emit_helper(char *eft_val, char *right_val, char *op);
 static inline void put_digital(int val, long address);
@@ -176,7 +176,7 @@ void walk_stmt(struct AST_node_stmt* stmt, char *scope, long para_addr) // in fu
                 }
                 if (find)
                     break;
-                printf("Undefined variable -> %s\n", state_tmp->real_state.real_let->var_name);
+                fprintf(stderr, "Undefined variable -> %s\n", state_tmp->real_state.real_let->var_name);
                 exit(-1);
             }
             // stack 
@@ -186,7 +186,7 @@ void walk_stmt(struct AST_node_stmt* stmt, char *scope, long para_addr) // in fu
             memset(buf, 0, 16);
             sprintf(buf, "%d", expr_val);
             if (addr >= 0xffffff) {
-                printf("unexpected error\n");
+                fprintf(stderr, "unexpected error\n");
             } else {
                 put_digital(expr_val, addr);
                 emit("=", buf, NULL, state_tmp->real_state.real_let->var_name); 
@@ -204,12 +204,6 @@ void walk_stmt(struct AST_node_stmt* stmt, char *scope, long para_addr) // in fu
         }
     }
 }
-char* new_temp() {
-    char* temp = malloc(20);
-    sprintf(temp, "t%d", temp_var_count++);
-    return temp;
-}
-
 
 int walk_expr(struct AST_node_expr *expr, char *scope, long addr, char *result) {
 
@@ -333,7 +327,7 @@ int walk_expr_t(struct AST_node_expr_t *expr_t, char *scope, long addr, char *re
                 }
                 if (find)
                     break;
-                printf("Undefined variable -> %s\n", expr_t->data.var_name);
+                fprintf(stderr, "Undefined variable -> %s\n", expr_t->data.var_name);
                 exit(-1);
             }
             sprintf(result, "%s", expr_t->data.var_name);
@@ -349,7 +343,7 @@ int walk_expr_t(struct AST_node_expr_t *expr_t, char *scope, long addr, char *re
             emit("=", tmp, NULL, result);
             break;
         default:
-            printf("Unknown expression type in walk_expr_t");
+            fprintf(stderr, "Unknown expression type in walk_expr_t");
             break;
     }
 
@@ -376,7 +370,7 @@ int function_call(struct AST_node_func_call *func, char *scope, long addr)
     }
     symbol_table_entry *func_p = find_symbol(symbol_t, func->func_name, "global");
     if (func_p == NULL) {
-        printf("Undefined function name -> %s\n", func->func_name);
+        fprintf(stderr, "Undefined function name -> %s\n", func->func_name);
     }
     char addr_buff[16];
     memset(addr_buff, 0, 16);
@@ -507,4 +501,9 @@ static inline void backfill()
             break;
         }
     }
+}
+char* new_temp() {
+    char* temp = malloc(20);
+    sprintf(temp, "t%d", temp_var_count++);
+    return temp;
 }

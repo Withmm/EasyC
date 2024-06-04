@@ -3,6 +3,8 @@ CFLAGS = -Wall -Wextra -Werror -Iinclude -g
 
 SRCDIR = .
 BUILDDIR = ../build
+LOGDIR = ../log
+EASYCDIR = ../easyc
 TARGET = main
 
 SOURCES = $(wildcard $(SRCDIR)/*.c)
@@ -20,7 +22,7 @@ $(BUILDDIR)/%.o: $(SRCDIR)/%.c
 	$(CC) $(CFLAGS) -c $< -o $@
 
 clean:
-	rm -f $(BUILDDIR)/*.o $(TARGET)
+	rm -f $(BUILDDIR)/*.o $(TARGET) $(EASYCDIR)/*.easyc $(LOGDIR)/*.log
 
 .PHONY: all clean
 
