@@ -28,15 +28,6 @@ struct AST_node_stmt *stmt(struct Token *token);
 struct AST_node_func_paras *paras(struct Token *token);
 int param(struct Token *token);
 int _para_list(struct Token *token);
-/*
-E->TE’
-E’->+TE’ | ε
-T->FT’
-T’->*F T’| ε
-F->(E) | constant | Identifier | func
-func->Identifer(paras)
-from: https://www.omegaxyz.com/2018/12/21/ll1-recursiondown/
-*/
 struct AST_node_expr *expr(struct Token *token); // E
 struct AST_node_expr_ *_expr(struct Token *token); // E'
 struct AST_node_expr_T *expr_T(struct Token *token); // T
