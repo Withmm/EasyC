@@ -58,7 +58,7 @@ char *keyword[NKEYWORD]= {
 	"else",
     "int",
     "long",
-    "register",
+    "char",
     "return",
     "short",
     "signed",

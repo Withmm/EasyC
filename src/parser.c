@@ -191,7 +191,8 @@ struct AST_node_var_dec_only *var_declaration(struct Token *token)
 		var_dec_only->var_type = VLONG;
 		break;
 
-    default:				errormsg(token, "var_declaration error: type shouldn't be %s\n", token[curtoken].lexeme);
+    	default:				
+		errormsg(token, "var_declaration error: type shouldn't be %s\n", token[curtoken].lexeme);
 	}
 
 

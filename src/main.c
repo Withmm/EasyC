@@ -43,7 +43,7 @@ int main(int argc, char *argv[])
 	//printf("%s", source_string);
 	
 	ntoken = lexer(source_string, maintoken);
-	/*
+	
 	for (int i = 0; i < ntoken; i++) {
 		printf("%s: ", typedebug[maintoken[i].ttype]);
 		printf("%s ", maintoken[i].lexeme);
@@ -52,7 +52,7 @@ int main(int argc, char *argv[])
         }
 	}
     	printf("\n");
-	*/
+	
     	struct AST_node_program* ast = parser(maintoken, ntoken);
 
     	handler_ast(ast);

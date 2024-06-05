@@ -1,3 +1,17 @@
+Int: int Identifier: max Delimiter: ( Int: int Identifier: x Delimiter: , Int: int Identifier: y Delimiter: ) Delimiter: { 
+Keyword: if Delimiter: ( Identifier: x Operator: > Identifier: y Delimiter: ) Delimiter: { 
+Keyword: return Identifier: x Delimiter: ; 
+Delimiter: } 
+Keyword: else Delimiter: { 
+Keyword: return Identifier: y Delimiter: ; 
+Delimiter: } 
+Delimiter: } 
+Int: int Identifier: main Delimiter: ( Delimiter: ) Delimiter: { 
+Int: int Identifier: x Operator: = Constant: 5 Delimiter: ; 
+Int: int Identifier: y Operator: = Constant: 10 Delimiter: ; 
+Int: int Identifier: z Operator: = Identifier: max Delimiter: ( Constant: 5 Delimiter: , Constant: 10 Delimiter: ) Delimiter: ; 
+Keyword: return Constant: 0 Delimiter: ; 
+Delimiter: } 
 1: (=, a0, _, t2)
 2: (=, t2, _, t0)
 3: (=, a1, _, t4)

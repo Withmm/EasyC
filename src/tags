@@ -1,0 +1,406 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_OUTPUT_EXCMD	mixed	/number, pattern, mixed, or combineV2/
+!_TAG_OUTPUT_FILESEP	slash	/slash or backslash/
+!_TAG_OUTPUT_MODE	u-ctags	/u-ctags or e-ctags/
+!_TAG_PATTERN_LENGTH_LIMIT	96	/0 for no limit/
+!_TAG_PROC_CWD	/home/xiongzile/workspace/Github_Project/A/Easyc/src/	//
+!_TAG_PROGRAM_AUTHOR	Universal Ctags Team	//
+!_TAG_PROGRAM_NAME	Universal Ctags	/Derived from Exuberant Ctags/
+!_TAG_PROGRAM_URL	https://ctags.io/	/official site/
+!_TAG_PROGRAM_VERSION	5.9.0	//
+$(BUILDDIR)	Makefile	/^$(BUILDDIR):$/;"	t
+$(BUILDDIR)/%.o	Makefile	/^$(BUILDDIR)\/%.o: $(SRCDIR)\/%.c$/;"	t
+$(TARGET)	Makefile	/^$(TARGET): $(OBJECTS)$/;"	t
+*.embeddedhtml	.vscode/settings.json	/^        "*.embeddedhtml": "html",$/;"	s	object:files.associations
+0	compile_commands.json	/^      "\/usr\/bin\/gcc",$/;"	s	array:0.arguments
+0	compile_commands.json	/^      "\/usr\/bin\/gcc",$/;"	s	array:1.arguments
+0	compile_commands.json	/^      "\/usr\/bin\/gcc",$/;"	s	array:2.arguments
+0	compile_commands.json	/^      "\/usr\/bin\/gcc",$/;"	s	array:3.arguments
+0	compile_commands.json	/^      "\/usr\/bin\/gcc",$/;"	s	array:4.arguments
+0	compile_commands.json	/^  {$/;"	o
+1	compile_commands.json	/^      "-Wall",$/;"	s	array:0.arguments
+1	compile_commands.json	/^      "-Wall",$/;"	s	array:1.arguments
+1	compile_commands.json	/^      "-Wall",$/;"	s	array:2.arguments
+1	compile_commands.json	/^      "-Wall",$/;"	s	array:3.arguments
+1	compile_commands.json	/^      "-Wall",$/;"	s	array:4.arguments
+1	compile_commands.json	/^  {$/;"	o
+2	compile_commands.json	/^      "-Wextra",$/;"	s	array:0.arguments
+2	compile_commands.json	/^      "-Wextra",$/;"	s	array:1.arguments
+2	compile_commands.json	/^      "-Wextra",$/;"	s	array:2.arguments
+2	compile_commands.json	/^      "-Wextra",$/;"	s	array:3.arguments
+2	compile_commands.json	/^      "-Wextra",$/;"	s	array:4.arguments
+2	compile_commands.json	/^  {$/;"	o
+3	compile_commands.json	/^      "-Werror",$/;"	s	array:0.arguments
+3	compile_commands.json	/^      "-Werror",$/;"	s	array:1.arguments
+3	compile_commands.json	/^      "-Werror",$/;"	s	array:2.arguments
+3	compile_commands.json	/^      "-Werror",$/;"	s	array:3.arguments
+3	compile_commands.json	/^      "-Werror",$/;"	s	array:4.arguments
+3	compile_commands.json	/^  {$/;"	o
+4	compile_commands.json	/^      "-Iinclude",$/;"	s	array:0.arguments
+4	compile_commands.json	/^      "-Iinclude",$/;"	s	array:1.arguments
+4	compile_commands.json	/^      "-Iinclude",$/;"	s	array:2.arguments
+4	compile_commands.json	/^      "-Iinclude",$/;"	s	array:3.arguments
+4	compile_commands.json	/^      "-Iinclude",$/;"	s	array:4.arguments
+4	compile_commands.json	/^  {$/;"	o
+5	compile_commands.json	/^      "-g",$/;"	s	array:0.arguments
+5	compile_commands.json	/^      "-g",$/;"	s	array:1.arguments
+5	compile_commands.json	/^      "-g",$/;"	s	array:2.arguments
+5	compile_commands.json	/^      "-g",$/;"	s	array:3.arguments
+5	compile_commands.json	/^      "-g",$/;"	s	array:4.arguments
+6	compile_commands.json	/^      "-c",$/;"	s	array:0.arguments
+6	compile_commands.json	/^      "-c",$/;"	s	array:1.arguments
+6	compile_commands.json	/^      "-c",$/;"	s	array:2.arguments
+6	compile_commands.json	/^      "-c",$/;"	s	array:3.arguments
+6	compile_commands.json	/^      "-c",$/;"	s	array:4.arguments
+7	compile_commands.json	/^      "-o",$/;"	s	array:0.arguments
+7	compile_commands.json	/^      "-o",$/;"	s	array:1.arguments
+7	compile_commands.json	/^      "-o",$/;"	s	array:2.arguments
+7	compile_commands.json	/^      "-o",$/;"	s	array:3.arguments
+7	compile_commands.json	/^      "-o",$/;"	s	array:4.arguments
+8	compile_commands.json	/^      "..\/build\/ast.o",$/;"	s	array:0.arguments
+8	compile_commands.json	/^      "..\/build\/lex.o",$/;"	s	array:1.arguments
+8	compile_commands.json	/^      "..\/build\/main.o",$/;"	s	array:2.arguments
+8	compile_commands.json	/^      "..\/build\/parser.o",$/;"	s	array:3.arguments
+8	compile_commands.json	/^      "..\/build\/symbol.o",$/;"	s	array:4.arguments
+9	compile_commands.json	/^      "ast.c"$/;"	s	array:0.arguments
+9	compile_commands.json	/^      "lex.c"$/;"	s	array:1.arguments
+9	compile_commands.json	/^      "main.c"$/;"	s	array:2.arguments
+9	compile_commands.json	/^      "parser.c"$/;"	s	array:3.arguments
+9	compile_commands.json	/^      "symbol.c"$/;"	s	array:4.arguments
+AST_H_	include/ast.h	/^#define AST_H_$/;"	d
+AST_node	include/ast.h	/^struct AST_node {$/;"	s
+AST_node_condition	include/ast.h	/^struct AST_node_condition {$/;"	s
+AST_node_declaration_list	include/ast.h	/^struct AST_node_declaration_list {$/;"	s
+AST_node_declarations	include/ast.h	/^struct AST_node_declarations {$/;"	s
+AST_node_expr	include/ast.h	/^struct AST_node_expr {  \/\/E$/;"	s
+AST_node_expr_	include/ast.h	/^struct AST_node_expr_ { \/\/E'$/;"	s
+AST_node_expr_T	include/ast.h	/^struct AST_node_expr_T { \/\/T$/;"	s
+AST_node_expr_T_	include/ast.h	/^struct AST_node_expr_T_ { \/\/T'$/;"	s
+AST_node_expr_t	include/ast.h	/^struct AST_node_expr_t { \/\/F$/;"	s
+AST_node_func_call	include/ast.h	/^struct AST_node_func_call {$/;"	s
+AST_node_func_dec	include/ast.h	/^struct AST_node_func_dec {$/;"	s
+AST_node_func_paras	include/ast.h	/^struct AST_node_func_paras {$/;"	s
+AST_node_program	include/ast.h	/^struct AST_node_program {$/;"	s
+AST_node_state	include/ast.h	/^struct AST_node_state {$/;"	s
+AST_node_state_dec	include/ast.h	/^struct AST_node_state_dec {$/;"	s
+AST_node_state_for	include/ast.h	/^struct AST_node_state_for {$/;"	s
+AST_node_state_if	include/ast.h	/^struct AST_node_state_if {$/;"	s
+AST_node_state_let	include/ast.h	/^struct AST_node_state_let {$/;"	s
+AST_node_state_return	include/ast.h	/^struct AST_node_state_return {$/;"	s
+AST_node_stmt	include/ast.h	/^struct AST_node_stmt {$/;"	s
+AST_node_type	include/ast.h	/^enum AST_node_type {PROGRAM, DECLARATION_LIST, VAR_DEC, FUNC_DEC, PARAMS, STATE, STMT};$/;"	g
+AST_node_var_dec_only	include/ast.h	/^struct AST_node_var_dec_only {$/;"	s
+BUILDDIR	Makefile	/^BUILDDIR = ..\/build$/;"	m
+CC	Makefile	/^CC = gcc$/;"	m
+CFLAGS	Makefile	/^CFLAGS = -Wall -Wextra -Werror -Iinclude -g$/;"	m
+CHAR	include/ast.h	/^enum func_type_enum {VOID = 0, CHAR, SHORT, INT, LONG};$/;"	e	enum:func_type_enum
+CONSTANT	include/ast.h	/^    enum { CONSTANT, VARIABLE, FUNCTION_CALL, PARENTHESIZED_EXPR } type;$/;"	e	enum:AST_node_expr_t::__anona4e734160303
+Char	include/types.h	/^enum tokentype{Identifier = 0, Keyword, Constant, Operator, Delimiter, Comment, Preprocessor, Un/;"	e	enum:tokentype
+Comment	include/types.h	/^enum tokentype{Identifier = 0, Keyword, Constant, Operator, Delimiter, Comment, Preprocessor, Un/;"	e	enum:tokentype
+Constant	include/types.h	/^enum tokentype{Identifier = 0, Keyword, Constant, Operator, Delimiter, Comment, Preprocessor, Un/;"	e	enum:tokentype
+DEBUG	ast.c	/^#define DEBUG /;"	d	file:
+DEBUG	parser.c	/^#define DEBUG /;"	d	file:
+DECLARATION_LIST	include/ast.h	/^enum AST_node_type {PROGRAM, DECLARATION_LIST, VAR_DEC, FUNC_DEC, PARAMS, STATE, STMT};$/;"	e	enum:AST_node_type
+Delimiter	include/types.h	/^enum tokentype{Identifier = 0, Keyword, Constant, Operator, Delimiter, Comment, Preprocessor, Un/;"	e	enum:tokentype
+EASYCDIR	Makefile	/^EASYCDIR = ..\/easyc$/;"	m
+EMITSMAX	include/ast.h	/^#define EMITSMAX /;"	d
+FILEMAX	include/types.h	/^#define FILEMAX /;"	d
+FOR	include/ast.h	/^enum state_type_enum {INIT, LET, IF, FOR, RETURN};$/;"	e	enum:state_type_enum
+FUNCTION_CALL	include/ast.h	/^    enum { CONSTANT, VARIABLE, FUNCTION_CALL, PARENTHESIZED_EXPR } type;$/;"	e	enum:AST_node_expr_t::__anona4e734160303
+FUNC_DEC	include/ast.h	/^enum AST_node_type {PROGRAM, DECLARATION_LIST, VAR_DEC, FUNC_DEC, PARAMS, STATE, STMT};$/;"	e	enum:AST_node_type
+IF	include/ast.h	/^enum state_type_enum {INIT, LET, IF, FOR, RETURN};$/;"	e	enum:state_type_enum
+INIT	include/ast.h	/^enum state_type_enum {INIT, LET, IF, FOR, RETURN};$/;"	e	enum:state_type_enum
+INT	include/ast.h	/^enum func_type_enum {VOID = 0, CHAR, SHORT, INT, LONG};$/;"	e	enum:func_type_enum
+Identifier	include/types.h	/^enum tokentype{Identifier = 0, Keyword, Constant, Operator, Delimiter, Comment, Preprocessor, Un/;"	e	enum:tokentype
+Int	include/types.h	/^enum tokentype{Identifier = 0, Keyword, Constant, Operator, Delimiter, Comment, Preprocessor, Un/;"	e	enum:tokentype
+KEYWORDMAX	include/types.h	/^#define KEYWORDMAX /;"	d
+Keyword	include/types.h	/^enum tokentype{Identifier = 0, Keyword, Constant, Operator, Delimiter, Comment, Preprocessor, Un/;"	e	enum:tokentype
+LET	include/ast.h	/^enum state_type_enum {INIT, LET, IF, FOR, RETURN};$/;"	e	enum:state_type_enum
+LINE_MAX	include/types.h	/^#define LINE_MAX /;"	d
+LOGDIR	Makefile	/^LOGDIR = ..\/log$/;"	m
+LONG	include/ast.h	/^enum func_type_enum {VOID = 0, CHAR, SHORT, INT, LONG};$/;"	e	enum:func_type_enum
+Long	include/types.h	/^enum tokentype{Identifier = 0, Keyword, Constant, Operator, Delimiter, Comment, Preprocessor, Un/;"	e	enum:tokentype
+NDELIMITER	include/types.h	/^#define NDELIMITER /;"	d
+NKEYWORD	include/types.h	/^#define NKEYWORD /;"	d
+NOPERATOR	include/types.h	/^#define NOPERATOR /;"	d
+NTOKEN	include/types.h	/^#define NTOKEN /;"	d
+OBJECTS	Makefile	/^OBJECTS = $(patsubst $(SRCDIR)\/%.c, $(BUILDDIR)\/%.o, $(SOURCES))$/;"	m
+Operator	include/types.h	/^enum tokentype{Identifier = 0, Keyword, Constant, Operator, Delimiter, Comment, Preprocessor, Un/;"	e	enum:tokentype
+PARAMS	include/ast.h	/^enum AST_node_type {PROGRAM, DECLARATION_LIST, VAR_DEC, FUNC_DEC, PARAMS, STATE, STMT};$/;"	e	enum:AST_node_type
+PARENTHESIZED_EXPR	include/ast.h	/^    enum { CONSTANT, VARIABLE, FUNCTION_CALL, PARENTHESIZED_EXPR } type;$/;"	e	enum:AST_node_expr_t::__anona4e734160303
+PROGRAM	include/ast.h	/^enum AST_node_type {PROGRAM, DECLARATION_LIST, VAR_DEC, FUNC_DEC, PARAMS, STATE, STMT};$/;"	e	enum:AST_node_type
+Preprocessor	include/types.h	/^enum tokentype{Identifier = 0, Keyword, Constant, Operator, Delimiter, Comment, Preprocessor, Un/;"	e	enum:tokentype
+RETURN	include/ast.h	/^enum state_type_enum {INIT, LET, IF, FOR, RETURN};$/;"	e	enum:state_type_enum
+SHORT	include/ast.h	/^enum func_type_enum {VOID = 0, CHAR, SHORT, INT, LONG};$/;"	e	enum:func_type_enum
+SOURCES	Makefile	/^SOURCES = $(wildcard $(SRCDIR)\/*.c)$/;"	m
+SRCDIR	Makefile	/^SRCDIR = .$/;"	m
+STATE	include/ast.h	/^enum AST_node_type {PROGRAM, DECLARATION_LIST, VAR_DEC, FUNC_DEC, PARAMS, STATE, STMT};$/;"	e	enum:AST_node_type
+STMT	include/ast.h	/^enum AST_node_type {PROGRAM, DECLARATION_LIST, VAR_DEC, FUNC_DEC, PARAMS, STATE, STMT};$/;"	e	enum:AST_node_type
+SYMBOL_TABLE_H	include/symbol.h	/^#define SYMBOL_TABLE_H$/;"	d
+Short	include/types.h	/^enum tokentype{Identifier = 0, Keyword, Constant, Operator, Delimiter, Comment, Preprocessor, Un/;"	e	enum:tokentype
+TABLE_SIZE	include/symbol.h	/^#define TABLE_SIZE /;"	d
+TARGET	Makefile	/^TARGET = main$/;"	m
+Token	include/types.h	/^struct Token {	$/;"	s
+Unknown	include/types.h	/^enum tokentype{Identifier = 0, Keyword, Constant, Operator, Delimiter, Comment, Preprocessor, Un/;"	e	enum:tokentype
+VARIABLE	include/ast.h	/^    enum { CONSTANT, VARIABLE, FUNCTION_CALL, PARENTHESIZED_EXPR } type;$/;"	e	enum:AST_node_expr_t::__anona4e734160303
+VAR_DEC	include/ast.h	/^enum AST_node_type {PROGRAM, DECLARATION_LIST, VAR_DEC, FUNC_DEC, PARAMS, STATE, STMT};$/;"	e	enum:AST_node_type
+VCHAR	include/ast.h	/^enum var_type_enum {VCHAR = 0, VSHORT, VINT, VLONG};$/;"	e	enum:var_type_enum
+VINT	include/ast.h	/^enum var_type_enum {VCHAR = 0, VSHORT, VINT, VLONG};$/;"	e	enum:var_type_enum
+VLONG	include/ast.h	/^enum var_type_enum {VCHAR = 0, VSHORT, VINT, VLONG};$/;"	e	enum:var_type_enum
+VOID	include/ast.h	/^enum func_type_enum {VOID = 0, CHAR, SHORT, INT, LONG};$/;"	e	enum:func_type_enum
+VSHORT	include/ast.h	/^enum var_type_enum {VCHAR = 0, VSHORT, VINT, VLONG};$/;"	e	enum:var_type_enum
+Void	include/types.h	/^enum tokentype{Identifier = 0, Keyword, Constant, Operator, Delimiter, Comment, Preprocessor, Un/;"	e	enum:tokentype
+_LEX_H	include/types.h	/^#define _LEX_H$/;"	d
+_TYPES_H	include/types.h	/^#define _TYPES_H$/;"	d
+__anona4e73416010a	include/ast.h	/^    union {$/;"	u	struct:AST_node_declarations
+__anona4e73416020a	include/ast.h	/^    union {$/;"	u	struct:AST_node_state
+__anona4e734160303	include/ast.h	/^    enum { CONSTANT, VARIABLE, FUNCTION_CALL, PARENTHESIZED_EXPR } type;$/;"	g	struct:AST_node_expr_t
+__anona4e73416040a	include/ast.h	/^    union {$/;"	u	struct:AST_node_expr_t
+_expr	parser.c	/^struct AST_node_expr_ *_expr(struct Token *token) {$/;"	f	typeref:struct:AST_node_expr_ *
+address	include/symbol.h	/^    long address;                   $/;"	m	struct:symbol_table_entry	typeref:typename:long
+all	Makefile	/^all: $(BUILDDIR) $(TARGET)$/;"	t
+arg1	include/ast.h	/^    char *arg1;$/;"	m	struct:emit_node	typeref:typename:char *
+arg1	include/parser.h	/^    char arg1[16];$/;"	m	struct:qua	typeref:typename:char[16]
+arg2	include/ast.h	/^    char *arg2;$/;"	m	struct:emit_node	typeref:typename:char *
+arg2	include/parser.h	/^    char arg2[16];$/;"	m	struct:qua	typeref:typename:char[16]
+arguments	compile_commands.json	/^    "arguments": [$/;"	a	object:0
+arguments	compile_commands.json	/^    "arguments": [$/;"	a	object:1
+arguments	compile_commands.json	/^    "arguments": [$/;"	a	object:2
+arguments	compile_commands.json	/^    "arguments": [$/;"	a	object:3
+arguments	compile_commands.json	/^    "arguments": [$/;"	a	object:4
+ast.h	.vscode/settings.json	/^        "ast.h": "c",$/;"	s	object:files.associations
+backfill	ast.c	/^static inline void backfill()$/;"	f	typeref:typename:void	file:
+basis	include/ast.h	/^    struct AST_node *basis; $/;"	m	struct:AST_node_state	typeref:struct:AST_node *
+basis	include/ast.h	/^    struct AST_node *basis;$/;"	m	struct:AST_node_condition	typeref:struct:AST_node *
+basis	include/ast.h	/^    struct AST_node *basis;$/;"	m	struct:AST_node_declaration_list	typeref:struct:AST_node *
+basis	include/ast.h	/^    struct AST_node *basis;$/;"	m	struct:AST_node_declarations	typeref:struct:AST_node *
+basis	include/ast.h	/^    struct AST_node *basis;$/;"	m	struct:AST_node_expr	typeref:struct:AST_node *
+basis	include/ast.h	/^    struct AST_node *basis;$/;"	m	struct:AST_node_expr_	typeref:struct:AST_node *
+basis	include/ast.h	/^    struct AST_node *basis;$/;"	m	struct:AST_node_expr_T	typeref:struct:AST_node *
+basis	include/ast.h	/^    struct AST_node *basis;$/;"	m	struct:AST_node_expr_T_	typeref:struct:AST_node *
+basis	include/ast.h	/^    struct AST_node *basis;$/;"	m	struct:AST_node_expr_t	typeref:struct:AST_node *
+basis	include/ast.h	/^    struct AST_node *basis;$/;"	m	struct:AST_node_func_call	typeref:struct:AST_node *
+basis	include/ast.h	/^    struct AST_node *basis;$/;"	m	struct:AST_node_func_dec	typeref:struct:AST_node *
+basis	include/ast.h	/^    struct AST_node *basis;$/;"	m	struct:AST_node_func_paras	typeref:struct:AST_node *
+basis	include/ast.h	/^    struct AST_node *basis;$/;"	m	struct:AST_node_program	typeref:struct:AST_node *
+basis	include/ast.h	/^    struct AST_node *basis;$/;"	m	struct:AST_node_state_dec	typeref:struct:AST_node *
+basis	include/ast.h	/^    struct AST_node *basis;$/;"	m	struct:AST_node_state_for	typeref:struct:AST_node *
+basis	include/ast.h	/^    struct AST_node *basis;$/;"	m	struct:AST_node_state_if	typeref:struct:AST_node *
+basis	include/ast.h	/^    struct AST_node *basis;$/;"	m	struct:AST_node_state_let	typeref:struct:AST_node *
+basis	include/ast.h	/^    struct AST_node *basis;$/;"	m	struct:AST_node_state_return	typeref:struct:AST_node *
+basis	include/ast.h	/^    struct AST_node *basis;$/;"	m	struct:AST_node_stmt	typeref:struct:AST_node *
+basis	include/ast.h	/^    struct AST_node *basis;$/;"	m	struct:AST_node_var_dec_only	typeref:struct:AST_node *
+body	include/ast.h	/^    struct AST_node_stmt *body;         \/\/ Loop body$/;"	m	struct:AST_node_state_for	typeref:struct:AST_node_stmt *
+clean	Makefile	/^clean:$/;"	t
+compile_result	test.py	/^compile_result = subprocess.run(["make"], stdout=subprocess.PIPE, stderr=subprocess.PIPE)$/;"	v
+cond	include/ast.h	/^    struct AST_node_condition *cond;    \/\/ Condition$/;"	m	struct:AST_node_state_for	typeref:struct:AST_node_condition *
+condition	include/ast.h	/^    struct AST_node_condition *condition;$/;"	m	struct:AST_node_state_if	typeref:struct:AST_node_condition *
+count	include/ast.h	/^    int count;$/;"	m	struct:AST_node_declaration_list	typeref:typename:int
+create_symbol_table_entry	symbol.c	/^symbol_table_entry *create_symbol_table_entry(char *name, char *type, char *scope, long address)/;"	f	typeref:typename:symbol_table_entry *
+current_func	ast.c	/^struct AST_node_func_dec *current_func;$/;"	v	typeref:struct:AST_node_func_dec *
+curtoken	parser.c	/^int curtoken;$/;"	v	typeref:typename:int
+data	ast.c	/^int data[4096];$/;"	v	typeref:typename:int[4096]
+data	include/ast.h	/^    } data;$/;"	m	struct:AST_node_expr_t	typeref:union:AST_node_expr_t::__anona4e73416040a
+data_p	ast.c	/^long data_p = 0xffff;$/;"	v	typeref:typename:long
+dec	include/ast.h	/^    struct AST_node_declaration_list *dec;$/;"	m	struct:AST_node_program	typeref:struct:AST_node_declaration_list *
+dec_capacity	include/ast.h	/^    long dec_capacity;$/;"	m	struct:AST_node_declaration_list	typeref:typename:long
+declaration	parser.c	/^struct AST_node_declarations *declaration(struct Token *token)$/;"	f	typeref:struct:AST_node_declarations *
+declaration_list	parser.c	/^struct AST_node_declaration_list *declaration_list(struct Token *token) {$/;"	f	typeref:struct:AST_node_declaration_list *
+declarations	include/ast.h	/^    struct AST_node_declarations **declarations;$/;"	m	struct:AST_node_declaration_list	typeref:struct:AST_node_declarations **
+delete_symbol	symbol.c	/^void delete_symbol(symbol_table_entry **symbol_table, char *name) {$/;"	f	typeref:typename:void
+delimiter	lex.c	/^char delimiter[NDELIMITER] = {$/;"	v	typeref:typename:char[]
+directory	compile_commands.json	/^    "directory": "\/home\/xiongzile\/workspace\/Easyc\/C\/src",$/;"	s	object:0
+directory	compile_commands.json	/^    "directory": "\/home\/xiongzile\/workspace\/Easyc\/C\/src",$/;"	s	object:1
+directory	compile_commands.json	/^    "directory": "\/home\/xiongzile\/workspace\/Easyc\/C\/src",$/;"	s	object:2
+directory	compile_commands.json	/^    "directory": "\/home\/xiongzile\/workspace\/Easyc\/C\/src",$/;"	s	object:3
+directory	compile_commands.json	/^    "directory": "\/home\/xiongzile\/workspace\/Easyc\/C\/src",$/;"	s	object:4
+else_body	include/ast.h	/^    struct AST_node_stmt *else_body;$/;"	m	struct:AST_node_state_if	typeref:struct:AST_node_stmt *
+emit	ast.c	/^void emit(char* op, char* arg1, char* arg2, char* result) {$/;"	f	typeref:typename:void
+emit_count	ast.c	/^int emit_count;$/;"	v	typeref:typename:int
+emit_node	include/ast.h	/^struct emit_node{$/;"	s
+emits	ast.c	/^struct emit_node *emits[EMITSMAX];$/;"	v	typeref:struct:emit_node * []
+error_message	test.py	/^                error_message = log_file.read()$/;"	v
+errormsg	parser.c	/^void errormsg(struct Token *token, const char *format, ...)$/;"	f	typeref:typename:void
+expr	include/ast.h	/^        struct AST_node_expr *expr; \/\/ For parenthesized expressions$/;"	m	union:AST_node_expr_t::__anona4e73416040a	typeref:struct:AST_node_expr *
+expr	parser.c	/^struct AST_node_expr *expr(struct Token *token) {$/;"	f	typeref:struct:AST_node_expr *
+expr_	include/ast.h	/^    struct AST_node_expr_ *expr_;$/;"	m	struct:AST_node_expr	typeref:struct:AST_node_expr_ *
+expr_	include/ast.h	/^    struct AST_node_expr_ *expr_;$/;"	m	struct:AST_node_expr_	typeref:struct:AST_node_expr_ *
+expr_T	include/ast.h	/^    struct AST_node_expr_T *expr_T;$/;"	m	struct:AST_node_expr	typeref:struct:AST_node_expr_T *
+expr_T	include/ast.h	/^    struct AST_node_expr_T *expr_T;$/;"	m	struct:AST_node_expr_	typeref:struct:AST_node_expr_T *
+expr_T	parser.c	/^struct AST_node_expr_T *expr_T(struct Token *token) {$/;"	f	typeref:struct:AST_node_expr_T *
+expr_T_	include/ast.h	/^    struct AST_node_expr_T_ *expr_T_;$/;"	m	struct:AST_node_expr_T	typeref:struct:AST_node_expr_T_ *
+expr_T_	include/ast.h	/^    struct AST_node_expr_T_ *expr_T_;$/;"	m	struct:AST_node_expr_T_	typeref:struct:AST_node_expr_T_ *
+expr_T_	parser.c	/^struct AST_node_expr_T_ *expr_T_(struct Token *token) {$/;"	f	typeref:struct:AST_node_expr_T_ *
+expr_bool	parser.c	/^struct AST_node_condition *expr_bool(struct Token *token) {$/;"	f	typeref:struct:AST_node_condition *
+expr_func	parser.c	/^struct AST_node_func_call *expr_func(struct Token *token) {$/;"	f	typeref:struct:AST_node_func_call *
+expr_t	include/ast.h	/^    struct AST_node_expr_t *expr_t;$/;"	m	struct:AST_node_expr_T	typeref:struct:AST_node_expr_t *
+expr_t	include/ast.h	/^    struct AST_node_expr_t *expr_t;$/;"	m	struct:AST_node_expr_T_	typeref:struct:AST_node_expr_t *
+expr_t	parser.c	/^struct AST_node_expr_t *expr_t(struct Token *token)$/;"	f	typeref:struct:AST_node_expr_t *
+file	compile_commands.json	/^    "file": "\/home\/xiongzile\/workspace\/Easyc\/C\/src\/ast.c",$/;"	s	object:0
+file	compile_commands.json	/^    "file": "\/home\/xiongzile\/workspace\/Easyc\/C\/src\/lex.c",$/;"	s	object:1
+file	compile_commands.json	/^    "file": "\/home\/xiongzile\/workspace\/Easyc\/C\/src\/main.c",$/;"	s	object:2
+file	compile_commands.json	/^    "file": "\/home\/xiongzile\/workspace\/Easyc\/C\/src\/parser.c",$/;"	s	object:3
+file	compile_commands.json	/^    "file": "\/home\/xiongzile\/workspace\/Easyc\/C\/src\/symbol.c",$/;"	s	object:4
+files.associations	.vscode/settings.json	/^    "files.associations": {$/;"	o
+find_symbol	symbol.c	/^symbol_table_entry *find_symbol(symbol_table_entry **symbol_table, char *name, char *scope) {$/;"	f	typeref:typename:symbol_table_entry *
+for_helper	ast.c	/^static int for_helper(struct AST_node_state_for *for_node, char *scope, long addr)$/;"	f	typeref:typename:int	file:
+from	include/ast.h	/^    struct AST_node_func_dec *from;$/;"	m	struct:AST_node_expr	typeref:struct:AST_node_func_dec *
+from	include/ast.h	/^    struct AST_node_func_dec *from;$/;"	m	struct:AST_node_expr_	typeref:struct:AST_node_func_dec *
+from	include/ast.h	/^    struct AST_node_func_dec *from;$/;"	m	struct:AST_node_expr_T	typeref:struct:AST_node_func_dec *
+from	include/ast.h	/^    struct AST_node_func_dec *from;$/;"	m	struct:AST_node_expr_T_	typeref:struct:AST_node_func_dec *
+from	include/ast.h	/^    struct AST_node_func_dec *from;$/;"	m	struct:AST_node_expr_t	typeref:struct:AST_node_func_dec *
+from	include/ast.h	/^    struct AST_node_func_dec *from;$/;"	m	struct:AST_node_state	typeref:struct:AST_node_func_dec *
+from	include/ast.h	/^    struct AST_node_func_dec *from;$/;"	m	struct:AST_node_state_dec	typeref:struct:AST_node_func_dec *
+from	include/ast.h	/^    struct AST_node_func_dec *from;$/;"	m	struct:AST_node_state_for	typeref:struct:AST_node_func_dec *
+from	include/ast.h	/^    struct AST_node_func_dec *from;$/;"	m	struct:AST_node_state_if	typeref:struct:AST_node_func_dec *
+from	include/ast.h	/^    struct AST_node_func_dec *from;$/;"	m	struct:AST_node_state_let	typeref:struct:AST_node_func_dec *
+from	include/ast.h	/^    struct AST_node_func_dec *from;$/;"	m	struct:AST_node_state_return	typeref:struct:AST_node_func_dec *
+from	include/ast.h	/^    struct AST_node_func_dec *from;$/;"	m	struct:AST_node_stmt	typeref:struct:AST_node_func_dec *
+func	include/ast.h	/^        struct AST_node_func_dec *func;$/;"	m	union:AST_node_declarations::__anona4e73416010a	typeref:struct:AST_node_func_dec *
+func_call	include/ast.h	/^        struct AST_node_func_call *func_call;$/;"	m	union:AST_node_expr_t::__anona4e73416040a	typeref:struct:AST_node_func_call *
+func_declaration	parser.c	/^struct AST_node_func_dec *func_declaration(struct Token *token) $/;"	f	typeref:struct:AST_node_func_dec *
+func_name	include/ast.h	/^    char *func_name;              \/\/ Name of the function$/;"	m	struct:AST_node_func_call	typeref:typename:char *
+func_name	include/ast.h	/^    char *func_name;$/;"	m	struct:AST_node_func_dec	typeref:typename:char *
+func_symbol	include/ast.h	/^struct func_symbol {$/;"	s
+func_type	include/ast.h	/^    enum func_type_enum func_type;$/;"	m	struct:AST_node_func_dec	typeref:enum:func_type_enum
+func_type_enum	include/ast.h	/^enum func_type_enum {VOID = 0, CHAR, SHORT, INT, LONG};$/;"	g
+func_type_str	ast.c	/^static const char *func_type_str[5] = {$/;"	v	typeref:typename:const char * [5]	file:
+function_call	ast.c	/^int function_call(struct AST_node_func_call *func, char *scope, long addr)$/;"	f	typeref:typename:int
+global_line	lex.c	/^int global_line = 1; $/;"	v	typeref:typename:int
+handler_ast	ast.c	/^void handler_ast(struct AST_node_program* pro) {$/;"	f	typeref:typename:void
+hash	symbol.c	/^unsigned int hash(char *name) {$/;"	f	typeref:typename:unsigned int
+if_body	include/ast.h	/^    struct AST_node_stmt *if_body;$/;"	m	struct:AST_node_state_if	typeref:struct:AST_node_stmt *
+if_helper	ast.c	/^static int if_helper(struct AST_node_state_if *if_node, char *scope, long addr)$/;"	f	typeref:typename:int	file:
+init	include/ast.h	/^    struct AST_node_state_dec *init;          \/\/ Initialization$/;"	m	struct:AST_node_state_for	typeref:struct:AST_node_state_dec *
+init_val	include/ast.h	/^    long init_val;$/;"	m	struct:AST_node_var_dec_only	typeref:typename:long
+init_val	include/ast.h	/^    struct AST_node_expr *init_val;$/;"	m	struct:AST_node_state_dec	typeref:struct:AST_node_expr *
+insert_symbol	symbol.c	/^void insert_symbol(symbol_table_entry **symbol_table,char *name, char *type, char *scope, long a/;"	f	typeref:typename:void
+is_delimiter	lex.c	/^int is_delimiter(char c, char *delimiter) $/;"	f	typeref:typename:int
+is_keyword	lex.c	/^int is_keyword(char *str, char *keyword[16]) $/;"	f	typeref:typename:int
+is_letter	lex.c	/^int is_letter(char c) $/;"	f	typeref:typename:int
+is_loperator	lex.c	/^int is_loperator(char c, char *loperator[4]) $/;"	f	typeref:typename:int
+is_number	lex.c	/^int is_number(char c) $/;"	f	typeref:typename:int
+is_operator	lex.c	/^int is_operator(char *src, char *loperator[4])$/;"	f	typeref:typename:int
+jmp_emit_helper	ast.c	/^static inline void jmp_emit_helper(char *left_buf, char *right_buf, char *op)$/;"	f	typeref:typename:void	file:
+keyword	lex.c	/^char *keyword[NKEYWORD]= {$/;"	v	typeref:typename:char * []
+left	include/ast.h	/^    struct AST_node_expr *left;$/;"	m	struct:AST_node_condition	typeref:struct:AST_node_expr *
+lexeme	include/types.h	/^	char lexeme[32];$/;"	m	struct:Token	typeref:typename:char[32]
+lexer	lex.c	/^int lexer(char *file_lexeme, struct Token *maintoken)$/;"	f	typeref:typename:int
+line	include/ast.h	/^    int line;$/;"	m	struct:AST_node	typeref:typename:int
+line	include/types.h	/^	int line;$/;"	m	struct:Token	typeref:typename:int
+log_dir	test.py	/^    log_dir = os.path.join("..", "log")$/;"	v
+log_filename	test.py	/^        log_filename = os.path.join(log_dir, os.path.splitext(os.path.basename(file))[0] + ".log/;"	v
+loperator	lex.c	/^char *loperator[NOPERATOR] = {$/;"	v	typeref:typename:char * []
+main	main.c	/^int main(int argc, char *argv[]) $/;"	f	typeref:typename:int
+maintoken	main.c	/^struct Token maintoken[NTOKEN]; $/;"	v	typeref:struct:Token[]
+maxtoken	parser.c	/^int maxtoken;$/;"	v	typeref:typename:int
+name	include/symbol.h	/^    char *name;                    $/;"	m	struct:symbol_table_entry	typeref:typename:char *
+new_temp	ast.c	/^char *new_temp() {$/;"	f	typeref:typename:char *
+next	include/symbol.h	/^    struct symbol_table_entry *next;  $/;"	m	struct:symbol_table_entry	typeref:struct:symbol_table_entry *
+no	include/ast.h	/^    int no;$/;"	m	struct:emit_node	typeref:typename:int
+ntoken	main.c	/^int ntoken;$/;"	v	typeref:typename:int
+op	include/ast.h	/^    char *op;    $/;"	m	struct:AST_node_condition	typeref:typename:char *
+op	include/ast.h	/^    char *op;$/;"	m	struct:emit_node	typeref:typename:char *
+op	include/ast.h	/^    char op;$/;"	m	struct:AST_node_expr_	typeref:typename:char
+op	include/ast.h	/^    char op;$/;"	m	struct:AST_node_expr_T_	typeref:typename:char
+op	include/parser.h	/^    char op[4];$/;"	m	struct:qua	typeref:typename:char[4]
+output	compile_commands.json	/^    "output": "\/home\/xiongzile\/workspace\/Easyc\/C\/build\/ast.o"$/;"	s	object:0
+output	compile_commands.json	/^    "output": "\/home\/xiongzile\/workspace\/Easyc\/C\/build\/lex.o"$/;"	s	object:1
+output	compile_commands.json	/^    "output": "\/home\/xiongzile\/workspace\/Easyc\/C\/build\/main.o"$/;"	s	object:2
+output	compile_commands.json	/^    "output": "\/home\/xiongzile\/workspace\/Easyc\/C\/build\/parser.o"$/;"	s	object:3
+output	compile_commands.json	/^    "output": "\/home\/xiongzile\/workspace\/Easyc\/C\/build\/symbol.o"$/;"	s	object:4
+output_dir	test.py	/^    output_dir = os.path.join("..", "easyc")$/;"	v
+output_filename	test.py	/^        output_filename = os.path.join(output_dir, os.path.splitext(os.path.basename(file))[0] +/;"	v
+para_addr	include/ast.h	/^    long para_addr;$/;"	m	struct:AST_node_func_dec	typeref:typename:long
+params	include/ast.h	/^    struct AST_node_expr **params; \/\/ Array of pointers to parameters (expressions)$/;"	m	struct:AST_node_func_call	typeref:struct:AST_node_expr **
+params	include/ast.h	/^    struct AST_node_func_paras *params; $/;"	m	struct:AST_node_func_dec	typeref:struct:AST_node_func_paras *
+params_capacity	include/ast.h	/^    int params_capacity;          \/\/ Capacity of the parameters array$/;"	m	struct:AST_node_func_call	typeref:typename:int
+params_count	include/ast.h	/^    int params_count;             \/\/ Number of parameters$/;"	m	struct:AST_node_func_call	typeref:typename:int
+paras	parser.c	/^struct AST_node_func_paras *paras(struct Token *token) {$/;"	f	typeref:struct:AST_node_func_paras *
+paras_capacity	include/ast.h	/^    int paras_capacity;$/;"	m	struct:AST_node_func_paras	typeref:typename:int
+paras_count	include/ast.h	/^    int paras_count;$/;"	m	struct:AST_node_func_paras	typeref:typename:int
+paras_data	ast.c	/^long paras_data[4096];$/;"	v	typeref:typename:long[4096]
+paras_name	include/ast.h	/^    char **paras_name;$/;"	m	struct:AST_node_func_paras	typeref:typename:char **
+paras_name	include/ast.h	/^    char **paras_name;$/;"	m	struct:func_symbol	typeref:typename:char **
+paras_p	ast.c	/^long paras_p = 0xffffff;$/;"	v	typeref:typename:long
+paras_type	include/ast.h	/^    enum var_type_enum *paras_type;$/;"	m	struct:AST_node_func_paras	typeref:enum:var_type_enum *
+parse_result	test.py	/^            parse_result = subprocess.run([".\/main", file], stdout=output_file, stderr=log_file/;"	v
+parser	parser.c	/^struct AST_node_program* parser(struct Token *token, int ntoken)$/;"	f	typeref:struct:AST_node_program *
+pc	ast.c	/^int pc = 1;$/;"	v	typeref:typename:int
+print_emit	ast.c	/^void print_emit()$/;"	f	typeref:typename:void
+print_symbol_table	symbol.c	/^void print_symbol_table(symbol_table_entry **symbol_table) {$/;"	f	typeref:typename:void
+program	parser.c	/^struct AST_node_program *program(struct Token *token, struct AST_node_program *program_node)$/;"	f	typeref:struct:AST_node_program *
+put_digital	ast.c	/^static inline void put_digital(int val, long address)$/;"	f	typeref:typename:void	file:
+put_paras_data	ast.c	/^static inline void put_paras_data(int val, long address)$/;"	f	typeref:typename:void	file:
+qua	include/parser.h	/^struct qua {$/;"	s
+real_dec	include/ast.h	/^        struct AST_node_state_dec *real_dec; \/\/ int x; || int x = 0;$/;"	m	union:AST_node_state::__anona4e73416020a	typeref:struct:AST_node_state_dec *
+real_dec	include/ast.h	/^    }real_dec;$/;"	m	struct:AST_node_declarations	typeref:union:AST_node_declarations::__anona4e73416010a
+real_for	include/ast.h	/^        struct AST_node_state_for *real_for;$/;"	m	union:AST_node_state::__anona4e73416020a	typeref:struct:AST_node_state_for *
+real_if	include/ast.h	/^        struct AST_node_state_if *real_if;$/;"	m	union:AST_node_state::__anona4e73416020a	typeref:struct:AST_node_state_if *
+real_let	include/ast.h	/^        struct AST_node_state_let *real_let; \/\/ x = y;$/;"	m	union:AST_node_state::__anona4e73416020a	typeref:struct:AST_node_state_let *
+real_return	include/ast.h	/^        struct AST_node_state_return *real_return;$/;"	m	union:AST_node_state::__anona4e73416020a	typeref:struct:AST_node_state_return *
+real_state	include/ast.h	/^    }real_state;$/;"	m	struct:AST_node_state	typeref:union:AST_node_state::__anona4e73416020a
+result	include/ast.h	/^    char *result;$/;"	m	struct:emit_node	typeref:typename:char *
+result	include/parser.h	/^    char result[16];$/;"	m	struct:qua	typeref:typename:char[16]
+ret_val	include/ast.h	/^    int ret_val;$/;"	m	struct:AST_node_func_call	typeref:typename:int
+ret_val	include/ast.h	/^    struct AST_node_expr *ret_val;$/;"	m	struct:AST_node_state_return	typeref:struct:AST_node_expr *
+return_helper	ast.c	/^static int return_helper(struct AST_node_state_return *return_node, char *scope, long addr)$/;"	f	typeref:typename:int	file:
+right	include/ast.h	/^    struct AST_node_expr *right;$/;"	m	struct:AST_node_condition	typeref:struct:AST_node_expr *
+scope	include/symbol.h	/^    char *scope;                   $/;"	m	struct:symbol_table_entry	typeref:typename:char *
+scope_count	ast.c	/^int scope_count;$/;"	v	typeref:typename:int
+source_string	main.c	/^char source_string[FILEMAX];$/;"	v	typeref:typename:char[]
+state	include/ast.h	/^    struct AST_node_state **state;$/;"	m	struct:AST_node_stmt	typeref:struct:AST_node_state **
+state	parser.c	/^struct AST_node_state *state(struct Token *token)$/;"	f	typeref:struct:AST_node_state *
+state_capacity	include/ast.h	/^    long state_capacity;$/;"	m	struct:AST_node_stmt	typeref:typename:long
+state_count	include/ast.h	/^    long state_count;$/;"	m	struct:AST_node_stmt	typeref:typename:long
+state_dec	parser.c	/^struct AST_node_state_dec *state_dec(struct Token *token)$/;"	f	typeref:struct:AST_node_state_dec *
+state_for	parser.c	/^struct AST_node_state_for *state_for(struct Token *token) {$/;"	f	typeref:struct:AST_node_state_for *
+state_if	parser.c	/^struct AST_node_state_if *state_if(struct Token *token) {$/;"	f	typeref:struct:AST_node_state_if *
+state_let	parser.c	/^struct AST_node_state_let *state_let(struct Token *token)$/;"	f	typeref:struct:AST_node_state_let *
+state_return	parser.c	/^struct AST_node_state_return *state_return(struct Token *token)$/;"	f	typeref:struct:AST_node_state_return *
+state_type	include/ast.h	/^    enum state_type_enum state_type;$/;"	m	struct:AST_node_state	typeref:enum:state_type_enum
+state_type_enum	include/ast.h	/^enum state_type_enum {INIT, LET, IF, FOR, RETURN};$/;"	g
+stdarg.h	.vscode/settings.json	/^        "stdarg.h": "c"$/;"	s	object:files.associations
+stmt	include/ast.h	/^    struct AST_node_stmt *stmt;$/;"	m	struct:AST_node_func_dec	typeref:struct:AST_node_stmt *
+stmt	parser.c	/^struct AST_node_stmt *stmt(struct Token *token) {$/;"	f	typeref:struct:AST_node_stmt *
+sym	include/ast.h	/^    struct func_symbol *sym;$/;"	m	struct:AST_node_func_dec	typeref:struct:func_symbol *
+symbol_t	ast.c	/^symbol_table_entry *symbol_t[TABLE_SIZE];$/;"	v	typeref:typename:symbol_table_entry * []
+symbol_table_entry	include/symbol.h	/^typedef struct symbol_table_entry {$/;"	s
+symbol_table_entry	include/symbol.h	/^} symbol_table_entry;$/;"	t	typeref:struct:symbol_table_entry
+temp_var_count	ast.c	/^int temp_var_count;$/;"	v	typeref:typename:int
+test_files	test.py	/^    test_files = [os.path.join("..", "test", filename) for filename in os.listdir("..\/test") if/;"	v
+tokentype	include/types.h	/^enum tokentype{Identifier = 0, Keyword, Constant, Operator, Delimiter, Comment, Preprocessor, Un/;"	g
+ttype	include/types.h	/^	enum tokentype ttype;$/;"	m	struct:Token	typeref:enum:tokentype
+type	include/ast.h	/^    enum AST_node_type type;$/;"	m	struct:AST_node	typeref:enum:AST_node_type
+type	include/ast.h	/^    enum { CONSTANT, VARIABLE, FUNCTION_CALL, PARENTHESIZED_EXPR } type;$/;"	m	struct:AST_node_expr_t	typeref:enum:AST_node_expr_t::__anona4e734160303
+type	include/ast.h	/^    long *type;$/;"	m	struct:func_symbol	typeref:typename:long *
+type	include/symbol.h	/^    char *type;                    $/;"	m	struct:symbol_table_entry	typeref:typename:char *
+typedebug	main.c	/^char typedebug[13][16] = {"Identifier", "Keyword", "Constant", "Operator", "Delimiter", "Comment/;"	v	typeref:typename:char[13][16]
+update	include/ast.h	/^    struct AST_node_state_let *update;       \/\/ Update expression$/;"	m	struct:AST_node_state_for	typeref:struct:AST_node_state_let *
+val	include/ast.h	/^        int val; \/\/ For constants$/;"	m	union:AST_node_expr_t::__anona4e73416040a	typeref:typename:int
+val	include/ast.h	/^    int val;$/;"	m	struct:AST_node_expr	typeref:typename:int
+val	include/ast.h	/^    int val;$/;"	m	struct:AST_node_expr_	typeref:typename:int
+val	include/ast.h	/^    int val;$/;"	m	struct:AST_node_expr_T	typeref:typename:int
+val	include/ast.h	/^    int val;$/;"	m	struct:AST_node_expr_T_	typeref:typename:int
+val	include/ast.h	/^    int val;$/;"	m	struct:AST_node_expr_t	typeref:typename:int
+var	include/ast.h	/^        struct AST_node_var_dec_only *var;$/;"	m	union:AST_node_declarations::__anona4e73416010a	typeref:struct:AST_node_var_dec_only *
+var_declaration	parser.c	/^struct AST_node_var_dec_only *var_declaration(struct Token *token)$/;"	f	typeref:struct:AST_node_var_dec_only *
+var_expr	include/ast.h	/^    struct AST_node_expr *var_expr;$/;"	m	struct:AST_node_state_let	typeref:struct:AST_node_expr *
+var_name	include/ast.h	/^        char *var_name; \/\/ For variables$/;"	m	union:AST_node_expr_t::__anona4e73416040a	typeref:typename:char *
+var_name	include/ast.h	/^    char *var_name;$/;"	m	struct:AST_node_state_dec	typeref:typename:char *
+var_name	include/ast.h	/^    char *var_name;$/;"	m	struct:AST_node_state_let	typeref:typename:char *
+var_name	include/ast.h	/^    char *var_name;$/;"	m	struct:AST_node_var_dec_only	typeref:typename:char *
+var_type	include/ast.h	/^    enum var_type_enum var_type;$/;"	m	struct:AST_node_state_dec	typeref:enum:var_type_enum
+var_type	include/ast.h	/^    enum var_type_enum var_type;$/;"	m	struct:AST_node_var_dec_only	typeref:enum:var_type_enum
+var_type_enum	include/ast.h	/^enum var_type_enum {VCHAR = 0, VSHORT, VINT, VLONG};$/;"	g
+var_type_str	ast.c	/^static const char *var_type_str[4] = {$/;"	v	typeref:typename:const char * [4]	file:
+walk_declation_list	ast.c	/^void walk_declation_list(struct AST_node_declaration_list* dec_list) {$/;"	f	typeref:typename:void
+walk_expr	ast.c	/^int walk_expr(struct AST_node_expr *expr, char *scope, long addr, char *result) {$/;"	f	typeref:typename:int
+walk_expr_	ast.c	/^int walk_expr_(struct AST_node_expr_ *expr_, char *scope, long addr, char *result) {$/;"	f	typeref:typename:int
+walk_expr_T	ast.c	/^int walk_expr_T(struct AST_node_expr_T *expr_T, char *scope, long addr, char *result) {$/;"	f	typeref:typename:int
+walk_expr_T_	ast.c	/^int walk_expr_T_(struct AST_node_expr_T_ *expr_T_, char *scope, long addr, char *result) {$/;"	f	typeref:typename:int
+walk_expr_t	ast.c	/^int walk_expr_t(struct AST_node_expr_t *expr_t, char *scope, long addr, char *result) {$/;"	f	typeref:typename:int
+walk_func_dec	ast.c	/^void walk_func_dec(struct AST_node_func_dec* func_dec)$/;"	f	typeref:typename:void
+walk_program	ast.c	/^void walk_program(struct AST_node_program* pro) {$/;"	f	typeref:typename:void
+walk_stmt	ast.c	/^void walk_stmt(struct AST_node_stmt* stmt, char *scope, long para_addr) \/\/ in function$/;"	f	typeref:typename:void

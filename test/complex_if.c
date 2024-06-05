@@ -13,6 +13,8 @@ int main() {
 		}
 		if (a > b) {
 			int m = 0;
+		} else {
+
 		}
 	}
 }

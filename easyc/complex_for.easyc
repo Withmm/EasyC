@@ -1,3 +1,13 @@
+Int: int Identifier: main Delimiter: ( Delimiter: ) Delimiter: { 
+Int: int Identifier: z Delimiter: ; 
+Keyword: for Delimiter: ( Int: int Identifier: i Operator: = Constant: 0 Delimiter: ; Identifier: i Operator: < Constant: 10 Delimiter: ; Identifier: i Operator: = Identifier: i Operator: + Constant: 1 Delimiter: ) Delimiter: { 
+Keyword: if Delimiter: ( Identifier: i Operator: > Constant: 5 Delimiter: ) Delimiter: { 
+Identifier: z Operator: = Constant: 10 Delimiter: ; 
+Delimiter: } Keyword: else Delimiter: { 
+Identifier: z Operator: = Constant: 20 Delimiter: ; 
+Delimiter: } 
+Delimiter: } 
+Delimiter: } 
 1: (=, _, _, z)
 2: (=, 0, _, t1)
 3: (=, t1, _, t0)
