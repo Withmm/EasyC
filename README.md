@@ -481,8 +481,8 @@ static inline void backfill()
         }
     }
 }
-char* new_temp() {
-    char* temp = malloc(20);
+char *new_temp() {
+    char *temp = malloc(20);
     sprintf(temp, "t%d", temp_var_count++);
     return temp;
 }
