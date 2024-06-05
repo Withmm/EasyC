@@ -1,3 +1,3 @@
-Int: int Identifier: main Delimiter: ( Delimiter: ) Delimiter: { 
-Int: int Constant: 1 Identifier: x Operator: = Constant: 2 Delimiter: ; 
-Delimiter: } 
+Int: intIdentifier: mainDelimiter: (Delimiter: )Delimiter: {
+Int: intConstant: 1Identifier: xOperator: =Constant: 2Delimiter: ;
+Delimiter: }

@@ -1,17 +1,17 @@
-Int: int Identifier: fibonacci Delimiter: ( Int: int Identifier: n Delimiter: ) Delimiter: { 
-Int: int Identifier: left Operator: = Constant: 1 Delimiter: ; 
-Int: int Identifier: right Operator: = Constant: 1 Delimiter: ; 
-Keyword: for Delimiter: ( Int: int Identifier: i Operator: = Constant: 0 Delimiter: ; Identifier: i Operator: < Identifier: n Operator: - Constant: 1 Delimiter: ; Identifier: i Operator: = Identifier: i Operator: + Constant: 1 Delimiter: ) Delimiter: { 
-Int: int Identifier: tmp Operator: = Identifier: left Operator: + Identifier: right Delimiter: ; 
-Identifier: left Operator: = Identifier: right Delimiter: ; 
-Identifier: right Operator: = Identifier: tmp Delimiter: ; 
-Delimiter: } 
-Keyword: return Identifier: left Delimiter: ; 
-Delimiter: } 
-Int: int Identifier: main Delimiter: ( Delimiter: ) Delimiter: { 
-Int: int Identifier: x Operator: = Identifier: fibonacci Delimiter: ( Constant: 5 Delimiter: ) Delimiter: ; 
-Keyword: return Identifier: x Delimiter: ; 
-Delimiter: } 
+Int: intIdentifier: fibonacciDelimiter: (Int: intIdentifier: nDelimiter: )Delimiter: {
+Int: intIdentifier: leftOperator: =Constant: 1Delimiter: ;
+Int: intIdentifier: rightOperator: =Constant: 1Delimiter: ;
+Keyword: forDelimiter: (Int: intIdentifier: iOperator: =Constant: 0Delimiter: ;Identifier: iOperator: <Identifier: nOperator: -Constant: 1Delimiter: ;Identifier: iOperator: =Identifier: iOperator: +Constant: 1Delimiter: )Delimiter: {
+Int: intIdentifier: tmpOperator: =Identifier: leftOperator: +Identifier: rightDelimiter: ;
+Identifier: leftOperator: =Identifier: rightDelimiter: ;
+Identifier: rightOperator: =Identifier: tmpDelimiter: ;
+Delimiter: }
+Keyword: returnIdentifier: leftDelimiter: ;
+Delimiter: }
+Int: intIdentifier: mainDelimiter: (Delimiter: )Delimiter: {
+Int: intIdentifier: xOperator: =Identifier: fibonacciDelimiter: (Constant: 5Delimiter: )Delimiter: ;
+Keyword: returnIdentifier: xDelimiter: ;
+Delimiter: }
 1: (=, 1, _, t1)
 2: (=, t1, _, t0)
 3: (=, t0, _, left)

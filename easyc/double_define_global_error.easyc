@@ -1,2 +1,2 @@
-Int: int Identifier: x Operator: = Constant: 3 Delimiter: ; 
-Int: int Identifier: x Operator: = Constant: 2 Delimiter: ; 
+Int: intIdentifier: xOperator: =Constant: 3Delimiter: ;
+Int: intIdentifier: xOperator: =Constant: 2Delimiter: ;

@@ -1,5 +1,5 @@
-Int: int Identifier: main Delimiter: ( Delimiter: ) Delimiter: { 
-Keyword: if Delimiter: ( Identifier: x Operator: > Identifier: y Delimiter: ) Delimiter: { 
-Keyword: return Identifier: x Delimiter: ; 
-Delimiter: } 
-Delimiter: } 
+Int: intIdentifier: mainDelimiter: (Delimiter: )Delimiter: {
+Keyword: ifDelimiter: (Identifier: xOperator: >Identifier: yDelimiter: )Delimiter: {
+Keyword: returnIdentifier: xDelimiter: ;
+Delimiter: }
+Delimiter: }

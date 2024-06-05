@@ -1,4 +1,4 @@
-Char: char Identifier: y Delimiter: ; 
-Short: short Identifier: z Delimiter: ; 
+Char: charIdentifier: yDelimiter: ;
+Short: shortIdentifier: zDelimiter: ;
 1: (=, 0, _, y)
 2: (=, 0, _, z)

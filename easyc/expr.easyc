@@ -1,9 +1,9 @@
-Int: int Identifier: main Delimiter: ( Delimiter: ) Delimiter: { 
-Int: int Identifier: x Operator: = Delimiter: ( Constant: 1 Operator: + Constant: 5 Delimiter: ) Operator: / Constant: 2 Delimiter: ; 
-Int: int Identifier: y Operator: = Constant: 3 Operator: * Constant: 10 Operator: / Constant: 2 Delimiter: ; 
-Int: int Identifier: z Operator: = Constant: 5 Operator: / Constant: 10 Operator: + Delimiter: ( Constant: 1 Operator: + Constant: 5 Delimiter: ) Delimiter: ; 
-Keyword: return Identifier: x Operator: + Identifier: y Operator: + Identifier: z Delimiter: ; 
-Delimiter: } 
+Int: intIdentifier: mainDelimiter: (Delimiter: )Delimiter: {
+Int: intIdentifier: xOperator: =Delimiter: (Constant: 1Operator: +Constant: 5Delimiter: )Operator: /Constant: 2Delimiter: ;
+Int: intIdentifier: yOperator: =Constant: 3Operator: *Constant: 10Operator: /Constant: 2Delimiter: ;
+Int: intIdentifier: zOperator: =Constant: 5Operator: /Constant: 10Operator: +Delimiter: (Constant: 1Operator: +Constant: 5Delimiter: )Delimiter: ;
+Keyword: returnIdentifier: xOperator: +Identifier: yOperator: +Identifier: zDelimiter: ;
+Delimiter: }
 1: (=, 1, _, t4)
 2: (=, 5, _, t6)
 3: (+, t4, t6, t3)

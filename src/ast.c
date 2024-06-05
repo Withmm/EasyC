@@ -1,3 +1,54 @@
+/*
+ * File: ast.c
+ * Description: This file contains the implementation of a simple code generator
+ *              for a basic programming language. It generates intermediate code
+ *              (quadruples) for various language constructs including variable
+ *              declarations, function declarations, statements, and expressions.
+ * 
+ *              The code generator uses a symbol table to manage variable and 
+ *              function declarations, and emits intermediate code for arithmetic
+ *              and logical expressions, control flow statements (if, for), 
+ *              and function calls.
+ * 
+ * Functions:
+ * - symbol_table_entry *symbol_t[TABLE_SIZE]: Symbol table for managing variable and function declarations.
+ * - struct emit_node *emits[EMITSMAX]: Array of emitted intermediate code instructions.
+ * - struct AST_node_func_dec *current_func: Pointer to the current function being processed.
+ * - int pc: Program counter for instruction numbering.
+ * - long data_p, paras_p: Pointers for managing data and parameter storage.
+ * - long paras_data[4096]: Array for storing parameter data.
+ * - int data[4096]: Array for storing variable data.
+ * - int scope_count: Counter for managing scope identifiers.
+ * - int emit_count: Counter for managing the number of emitted instructions.
+ * - int temp_var_count: Counter for generating temporary variable names.
+ * - static const char *var_type_str[4]: Array of string representations for variable types.
+ * - static const char *func_type_str[5]: Array of string representations for function return types.
+ * - char *new_temp(): Generates a new temporary variable name.
+ * - static inline void backfill(): Helper function for backfilling jump addresses.
+ * - static inline void jmp_emit_helper(char *eft_val, char *right_val, char *op): Helper function for emitting jump instructions.
+ * - static inline void put_digital(int val, long address): Stores a digital value in the data array.
+ * - static inline void put_paras_data(int val, long address): Stores a parameter value in the parameter data array.
+ * - static int for_helper(struct AST_node_state_for *for_node, char *scope, long addr): Helper function for processing 'for' statements.
+ * - static int if_helper(struct AST_node_state_if *if_node, char *scope, long addr): Helper function for processing 'if' statements.
+ * - static int return_helper(struct AST_node_state_return *return_node, char *scope, long addr): Helper function for processing 'return' statements.
+ * - void emit(char *op, char *arg1, char *arg2, char *result): Emits an intermediate code instruction.
+ * - void print_emit(): Prints all emitted intermediate code instructions.
+ * - void walk_program(struct AST_node_program *pro): Processes the entire program AST.
+ * - void walk_declation_list(struct AST_node_declaration_list *dec_list): Processes a list of declarations.
+ * - void walk_func_dec(struct AST_node_func_dec *func_dec): Processes a function declaration.
+ * - void walk_stmt(struct AST_node_stmt *stmt, char *scope, long addr): Processes a statement.
+ * - int walk_expr(struct AST_node_expr *expr, char *scope, long addr, char *tmp): Processes an expression.
+ * - int walk_expr_(struct AST_node_expr_ *expr_, char *scope, long addr, char *tmp): Processes an extended expression.
+ * - int walk_expr_T(struct AST_node_expr_T *expr_T, char *scope, long addr, char *tmp): Processes a term.
+ * - int walk_expr_T_(struct AST_node_expr_T_ *expr_T_, char *scope, long addr, char *tmp): Processes an extended term.
+ * - int walk_expr_t(struct AST_node_expr_t *expr_t, char *scope, long addr, char *tmp): Processes a factor.
+ * - int function_call(struct AST_node_func_call *func, char *scope, long addr): Processes a function call.
+ * - void handler_ast(struct AST_node_program *pro): Initializes the symbol table and processes the entire program AST.
+ *
+ * Usage: Include this file in a project that requires intermediate code generation
+ *        from an abstract syntax tree (AST) of a basic programming language.
+ */
+
 #include "include/ast.h"
 #include "include/symbol.h"
 #include <stdio.h>
