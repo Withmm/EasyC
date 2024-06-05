@@ -506,6 +506,6 @@ char* new_temp() {
 
 
 
-**代码规范参考 **
+**代码规范参考**
 
 [Linux内核代码风格](https://www.kernel.org/doc/html/v4.13/translations/zh_CN/coding-style.html)
