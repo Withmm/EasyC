@@ -366,7 +366,13 @@ struct AST_node_stmt *stmt(struct Token *token) {
         stmt_node->state[stmt_node->state_count] = state(token);
         stmt_node->state_count++;
     }
-
+    if (stmt_node->state_count == 0) {
+	curtoken++;
+	free(stmt_node->state);	
+	free(stmt_node->basis);	
+	free(stmt_node);	
+	return NULL;
+    }
     // }
     curtoken++;
     return stmt_node;
