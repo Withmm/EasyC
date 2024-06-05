@@ -6,17 +6,19 @@
 #include <string.h>
 #include <stdarg.h>
 #define DEBUG printf
-void errormsg(const char *format, ...)
+
+/* declaration */
+int curtoken;
+int maxtoken;
+void errormsg(struct Token *token, const char *format, ...)
 {
+    fprintf(stderr, "line %d -> ", token[curtoken].line);
     va_list args;
     va_start(args, format);
 	vfprintf(stderr, format, args);
     va_end(args);
 	exit(-1);
 }
-/* declaration */
-int maxtoken;
-int curtoken;
 struct AST_node_declaration_list *declaration_list(struct Token *token);
 struct AST_node_declarations *declaration(struct Token *token);
 struct AST_node_var_dec_only *var_declaration(struct Token *token);
@@ -48,14 +50,15 @@ struct AST_node_program *program(struct Token *token, struct AST_node_program *p
 struct AST_node_program *program(struct Token *token, struct AST_node_program *program_node)
 {
     program_node->basis = malloc(sizeof(struct AST_node));
-	  program_node->basis->type = PROGRAM;
-	  program_node->dec = declaration_list(token);
-	  if (curtoken != -1) {
-		    return program_node;
-	  } else {
-		    errormsg("program error: unexpected token -> %s\n", token[curtoken].lexeme);
-	  }
-	  return program_node;
+	program_node->basis->type = PROGRAM;
+	program_node->basis->line = token[curtoken].line;
+	program_node->dec = declaration_list(token);
+	if (curtoken != -1) {
+		return program_node;
+	} else {
+		errormsg(token, "program error: unexpected token -> %s\n", token[curtoken].lexeme);
+	}
+	return program_node;
 }
 
 struct AST_node_declaration_list *declaration_list(struct Token *token) {
@@ -64,10 +67,10 @@ struct AST_node_declaration_list *declaration_list(struct Token *token) {
         perror("Failed to allocate memory for declaration list");
         exit(EXIT_FAILURE);
     }
-
     dec_list->count = 0;
     dec_list->dec_capacity = 10;  // 初始容量
     dec_list->basis = malloc(sizeof(struct AST_node));
+    dec_list->basis->line = token[curtoken].line;
     if (!dec_list->basis) {
         perror("Failed to allocate memory for basis");
         exit(EXIT_FAILURE);
@@ -102,9 +105,11 @@ struct AST_node_declarations *declaration(struct Token *token)
     dec->basis = malloc (sizeof (struct AST_node));
 	if (strcmp(token[curtoken + 2].lexeme, "(") == 0) {
 		dec->basis->type = FUNC_DEC;
+		dec->basis->line = token[curtoken].line;
 		dec->real_dec.func = func_declaration(token);
 	} else {
 		dec->basis->type = VAR_DEC;
+		dec->basis->line = token[curtoken].line;
 		dec->real_dec.var = var_declaration(token);
 	}
 	return dec;
@@ -115,6 +120,7 @@ struct AST_node_func_dec *func_declaration(struct Token *token)
 	struct AST_node_func_dec *func_dec = malloc(sizeof (struct AST_node_func_dec));
     func_dec->basis = malloc(sizeof (struct AST_node));
 	func_dec->basis->type = FUNC_DEC;
+	func_dec->basis->line = token[curtoken].line;
 	// int 
 	switch(token[curtoken].ttype) {
 
@@ -139,7 +145,7 @@ struct AST_node_func_dec *func_declaration(struct Token *token)
 		break;
 
 	default:				
-		errormsg("func_declaration error: unexpected token -> %s\n", token[curtoken].lexeme);
+		errormsg(token, "func_declaration error: unexpected token -> %s\n", token[curtoken].lexeme);
 
 	}
 
@@ -147,7 +153,7 @@ struct AST_node_func_dec *func_declaration(struct Token *token)
 	//main func ....
 
 	if (token[curtoken].ttype != Identifier) {
-		errormsg("func_declaration error: function_name must be identifiler\n");
+		errormsg(token, "func_declaration error: function_name must be identifiler\n");
 	}
 
 	func_dec->func_name = strdup(token[curtoken].lexeme);
@@ -164,6 +170,7 @@ struct AST_node_var_dec_only *var_declaration(struct Token *token)
 	struct AST_node_var_dec_only *var_dec_only = malloc(sizeof (struct AST_node_var_dec_only));
 	var_dec_only->basis = malloc(sizeof (struct AST_node));
 	var_dec_only->basis->type = VAR_DEC;
+	var_dec_only->basis->line = token[curtoken].line;
 	var_dec_only->init_val = 0;
 	// int
 	switch(token[curtoken].ttype) {
@@ -184,7 +191,7 @@ struct AST_node_var_dec_only *var_declaration(struct Token *token)
 		var_dec_only->var_type = VLONG;
 		break;
 
-    default:				errormsg("var_declaration error: type shouldn't be %s\n", token[curtoken].lexeme);
+    default:				errormsg(token, "var_declaration error: type shouldn't be %s\n", token[curtoken].lexeme);
 	}
 
 
@@ -192,7 +199,7 @@ struct AST_node_var_dec_only *var_declaration(struct Token *token)
 	// x
 
 	if (token[curtoken].ttype != Identifier) {
-		errormsg("var_declaration error: var_name must be identifier\n");
+		errormsg(token, "var_declaration error: var_name must be identifier\n");
 	}
 	var_dec_only->var_name = strdup(token[curtoken].lexeme);
 
@@ -204,13 +211,13 @@ struct AST_node_var_dec_only *var_declaration(struct Token *token)
 	}
 	// =
 	if (strcmp(token[curtoken].lexeme, "=") != 0) {
-		errormsg("var_declaration error: missing =\n");
+		errormsg(token, "var_declaration error: missing =\n");
 	}
 
 	curtoken++;
 	// constant
 	if (token[curtoken].ttype != Constant) {
-		errormsg("global var_declaration error: missing Constant");
+		errormsg(token, "global var_declaration error: missing Constant");
 	}
 
 	curtoken++;
@@ -218,7 +225,7 @@ struct AST_node_var_dec_only *var_declaration(struct Token *token)
 
 	// ;
 	if (strcmp(token[curtoken].lexeme, ";") != 0) {
-		errormsg("global var_declaration error: missing ;");
+		errormsg(token, "global var_declaration error: missing ;");
 	}
 	curtoken++;
 
@@ -239,6 +246,7 @@ struct AST_node_func_paras *paras(struct Token *token) {
         exit(EXIT_FAILURE);
     }
     params->basis->type = PARAMS;
+    params->basis->line = token[curtoken].line;
     params->paras_count = 0;
     params->paras_capacity = 5;
     params->paras_name = malloc(params->paras_capacity * sizeof(char *));
@@ -250,7 +258,7 @@ struct AST_node_func_paras *paras(struct Token *token) {
 
     // (
     if (strcmp(token[curtoken].lexeme, "(") != 0) {
-        errormsg("paras error: missing (\n");
+        errormsg(token, "paras error: missing (\n");
     }
 
     curtoken++;
@@ -285,13 +293,13 @@ struct AST_node_func_paras *paras(struct Token *token) {
                 params->paras_type[params->paras_count] = VLONG;
                 break;
             default:
-                errormsg("paras error: invalid type\n");
+                errormsg(token, "paras error: invalid type\n");
         }
 
         curtoken++;
         // Identifier
         if (token[curtoken].ttype != Identifier) {
-            errormsg("paras error: missing identifier\n");
+            errormsg(token, "paras error: missing identifier\n");
         }
 
         params->paras_name[params->paras_count] = strdup(token[curtoken].lexeme);
@@ -310,7 +318,7 @@ struct AST_node_func_paras *paras(struct Token *token) {
             curtoken++;
             return params;
         } else {
-            errormsg("paras error: missing , or )\n");
+            errormsg(token, "paras error: missing , or )\n");
         }
     }
     return params;
@@ -329,6 +337,7 @@ struct AST_node_stmt *stmt(struct Token *token) {
         exit(EXIT_FAILURE);
     }
     stmt_node->basis->type = STMT;
+    stmt_node->basis->line = token[curtoken].line;
 
     stmt_node->state_capacity = 10;
     stmt_node->state_count = 0;
@@ -340,7 +349,7 @@ struct AST_node_stmt *stmt(struct Token *token) {
 
     // {
     if (strcmp(token[curtoken].lexeme, "{") != 0) {
-        errormsg("stmt error: expected {\n");
+        errormsg(token, "stmt error: expected {\n");
     }
 
     curtoken++;
@@ -368,6 +377,7 @@ struct AST_node_state *state(struct Token *token)
     struct AST_node_state *state_node = malloc(sizeof (struct AST_node_state));
     state_node->basis = malloc(sizeof (struct AST_node));
     state_node->basis->type = STATE;
+    state_node->basis->line = token[curtoken].line;
 	// return xxx
 	if (strcmp(token[curtoken].lexeme, "return") == 0) {
         state_node->state_type = RETURN;
@@ -396,7 +406,7 @@ struct AST_node_state *state(struct Token *token)
             state_node->real_state.real_let = state_let(token);
 			return state_node;
 		} else {
-		    errormsg("state error: missing =\n");
+		    errormsg(token, "state error: missing =\n");
 		}
 
 	default:				
@@ -416,14 +426,16 @@ struct AST_node_state *state(struct Token *token)
 		return state_node;
 	}
 
-    errormsg("state error: no matching statement type\n");
+    errormsg(token, "state error: no matching statement type\n");
     exit(-1);
 }
 
 struct AST_node_state_dec *state_dec(struct Token *token)
 {
     struct AST_node_state_dec *state_dec_node = malloc(sizeof (struct AST_node_state_dec));
+    state_dec_node->basis = malloc(sizeof(struct AST_node));
     state_dec_node->init_val = NULL;
+    state_dec_node->basis->line = token[curtoken].line;
 	// int
 	switch(token[curtoken].ttype) {
 
@@ -444,14 +456,14 @@ struct AST_node_state_dec *state_dec(struct Token *token)
         break;
 
 	default:
-        errormsg("state_declaration error:unexpected type\n");
+        errormsg(token, "state_declaration error:unexpected type\n");
 	}
 
 	curtoken++;
 	//Identifier
 
 	if (token[curtoken].ttype != Identifier) {
-		errormsg("state_declaration error: var_name should be identifiler\n");
+		errormsg(token, "state_declaration error: var_name should be identifiler\n");
 	}
     state_dec_node->var_name = strdup(token[curtoken].lexeme);
 	curtoken++;
@@ -464,7 +476,7 @@ struct AST_node_state_dec *state_dec(struct Token *token)
 	// =
 
 	if (strcmp(token[curtoken].lexeme, "=") != 0) {
-		errormsg("state_declaration error: missing =\n");
+		errormsg(token, "state_declaration error: missing =\n");
 	}
 
 	curtoken++;
@@ -473,7 +485,7 @@ struct AST_node_state_dec *state_dec(struct Token *token)
 
 	//;
 	if (strcmp(token[curtoken].lexeme, ";") != 0 && strcmp(token[curtoken].lexeme, ")") != 0) {
-		errormsg("state_declaration error: missing ; or )\n");
+		errormsg(token, "state_declaration error: missing ; or )\n");
 	}
 	curtoken++;
 	return state_dec_node;
@@ -482,9 +494,11 @@ struct AST_node_state_dec *state_dec(struct Token *token)
 struct AST_node_state_return *state_return(struct Token *token)
 {
     struct AST_node_state_return *state_return_node = malloc(sizeof (struct AST_node_state_return));
+    state_return_node->basis = malloc(sizeof(struct AST_node));
+    state_return_node->basis->line =token[curtoken].line;
 	// return
 	if (strcmp(token[curtoken].lexeme, "return") != 0) {
-		errormsg("state_return error : missing return\n");
+		errormsg(token, "state_return error : missing return\n");
 	}
 
 	curtoken++;
@@ -493,7 +507,7 @@ struct AST_node_state_return *state_return(struct Token *token)
 
 	//;
 	if (strcmp(token[curtoken].lexeme, ";") != 0 ) {
-		errormsg("state_return error: missing ;\n");
+		errormsg(token, "state_return error: missing ;\n");
 	}
 	curtoken++;
 	return state_return_node;
@@ -502,22 +516,23 @@ struct AST_node_state_return *state_return(struct Token *token)
 struct AST_node_state_let *state_let(struct Token *token)
 {
     struct AST_node_state_let *state_let_node = malloc(sizeof (struct AST_node_state_let));
-    
+    state_let_node->basis = malloc(sizeof(struct AST_node)); 
+    state_let_node->basis->line = token[curtoken].line;
     if (token[curtoken].ttype != Identifier) {
-        errormsg("state_let error: missing left value\n");
+        errormsg(token, "state_let error: missing left value\n");
     }
     state_let_node->var_name = strdup(token[curtoken].lexeme);
 
     curtoken++;
     //=
     if (strcmp(token[curtoken].lexeme, "=") != 0) {
-        errormsg("state_let error: missing =\n");
+        errormsg(token, "state_let error: missing =\n");
     } 
     curtoken++;
     //expr
     state_let_node->var_expr = expr(token);
     if (strcmp(token[curtoken].lexeme, ";") != 0 && strcmp(token[curtoken].lexeme, ")") != 0) {
-        errormsg("state_let error: missing ';' or ')'\n");
+        errormsg(token, "state_let error: missing ';' or ')'\n");
     }
     curtoken++;
     return state_let_node;
@@ -560,6 +575,8 @@ struct AST_node_expr_T_ *expr_T_(struct Token *token) {
 struct AST_node_expr_t *expr_t(struct Token *token)
 {
     struct AST_node_expr_t *expr_t_node = malloc(sizeof(struct AST_node_expr_t));
+    expr_t_node->basis = malloc(sizeof(struct AST_node));
+    expr_t_node->basis->line = token[curtoken].line;
 	if (token[curtoken].ttype == Constant) {
         expr_t_node->type = CONSTANT;
         expr_t_node->data.val = atoi(token[curtoken].lexeme);
@@ -583,40 +600,40 @@ struct AST_node_expr_t *expr_t(struct Token *token)
 		curtoken++;
 		expr_t_node->data.expr = expr(token);
 		if (strcmp(token[curtoken].lexeme, ")") != 0) {
-			errormsg("expr error: missing \')\'\n");
+			errormsg(token, "expr error: missing \')\'\n");
 		}
 		curtoken++;
 		return expr_t_node;
 	}
-	errormsg("expr error: missing Identifier or \'(\'\n");
+	errormsg(token, "expr error: missing Identifier or \'(\'\n");
     exit(-1);
 }
 struct AST_node_func_call *expr_func(struct Token *token) {
     struct AST_node_func_call *node = malloc(sizeof(struct AST_node_func_call));
     if (!node) {
-        errormsg("Memory allocation failed for AST_node_func_call\n");
+        errormsg(token, "Memory allocation failed for AST_node_func_call\n");
     }
 
     node->params_capacity = 5;
     node->params_count = 0;
     node->params = malloc(node->params_capacity * sizeof(struct AST_node_expr *));
     if (!node->params) {
-        errormsg("Memory allocation failed for function parameters\n");
+        errormsg(token, "Memory allocation failed for function parameters\n");
     }
 
     if (token[curtoken].ttype != Identifier) {
-        errormsg("expr error: missing func_name\n");
+        errormsg(token, "expr error: missing func_name\n");
     }
 
     node->func_name = strdup(token[curtoken].lexeme);
     if (!node->func_name) {
-        errormsg("Memory allocation failed for func_name\n");
+        errormsg(token, "Memory allocation failed for func_name\n");
     }
 
     curtoken++;
     // (
     if (strcmp(token[curtoken].lexeme, "(") != 0) {
-        errormsg("expr_func error: missing '('\n");
+        errormsg(token, "expr_func error: missing '('\n");
     }
 
     curtoken++; // Skip '('
@@ -626,7 +643,7 @@ struct AST_node_func_call *expr_func(struct Token *token) {
             node->params_capacity *= 2;
             node->params = realloc(node->params, node->params_capacity * sizeof(struct AST_node_expr *));
             if (!node->params) {
-                errormsg("Memory reallocation failed for function parameters\n");
+                errormsg(token, "Memory reallocation failed for function parameters\n");
             }
         }
         struct AST_node_expr *param = expr(token); // Parse the parameter
@@ -635,7 +652,7 @@ struct AST_node_func_call *expr_func(struct Token *token) {
         if (strcmp(token[curtoken].lexeme, ",") == 0) {
             curtoken++;
         } else if (strcmp(token[curtoken].lexeme, ")") != 0) {
-            errormsg("expr_func_paras error: expected ',' or ')'\n");
+            errormsg(token, "expr_func_paras error: expected ',' or ')'\n");
         }
     }
 
@@ -646,23 +663,23 @@ struct AST_node_func_call *expr_func(struct Token *token) {
 struct AST_node_state_if *state_if(struct Token *token) {
     struct AST_node_state_if *node = malloc(sizeof(struct AST_node_state_if));
     if (!node) {
-        errormsg("Memory allocation failed for AST_node_state_if\n");
+        errormsg(token, "Memory allocation failed for AST_node_state_if\n");
     }
 
     if (strcmp(token[curtoken].lexeme, "if") != 0) {
-        errormsg("state_if error: missing 'if'\n");
+        errormsg(token, "state_if error: missing 'if'\n");
     }
 
     curtoken++;
     if (strcmp(token[curtoken].lexeme, "(") != 0) {
-        errormsg("state_if error: missing '('\n");
+        errormsg(token, "state_if error: missing '('\n");
     }
 
     curtoken++;
     node->condition = expr_bool(token);  // Parse the boolean expression
 
     if (strcmp(token[curtoken].lexeme, ")") != 0) {
-        errormsg("state_if error: missing ')'\n");
+        errormsg(token, "state_if error: missing ')'\n");
     }
 
     curtoken++;
@@ -680,7 +697,7 @@ struct AST_node_state_if *state_if(struct Token *token) {
 struct AST_node_condition *expr_bool(struct Token *token) {
     struct AST_node_condition *cond_node = malloc(sizeof(struct AST_node_condition));
     if (!cond_node) {
-        errormsg("Memory allocation failed for AST_node_condition\n");
+        errormsg(token, "Memory allocation failed for AST_node_condition\n");
     }
 
     cond_node->left = expr(token);  // Parse left-hand side expression
@@ -702,18 +719,18 @@ struct AST_node_condition *expr_bool(struct Token *token) {
         }
     } else if (strcmp(token[curtoken].lexeme, "=") == 0) {
         if (strcmp(token[curtoken + 1].lexeme, "=") != 0) {
-            errormsg("expr_bool error: use == instead of =\n");
+            errormsg(token, "expr_bool error: use == instead of =\n");
         }
         cond_node->op = strdup("==");
         curtoken += 2;
     } else if (strcmp(token[curtoken].lexeme, "!") == 0) {
         if (strcmp(token[curtoken + 1].lexeme, "=") != 0) {
-            errormsg("expr_bool error: unexpected symbol '!'\n");
+            errormsg(token, "expr_bool error: unexpected symbol '!'\n");
         }
         cond_node->op = strdup("!=");
         curtoken += 2;
     } else {
-        errormsg("no matching boolean symbol: != == > < >= <=\n");
+        errormsg(token, "no matching boolean symbol: != == > < >= <=\n");
     }
 
     cond_node->right = expr(token);  // Parse right-hand side expression
@@ -723,16 +740,16 @@ struct AST_node_condition *expr_bool(struct Token *token) {
 struct AST_node_state_for *state_for(struct Token *token) {
     struct AST_node_state_for *for_node = malloc(sizeof(struct AST_node_state_for));
     if (!for_node) {
-        errormsg("Memory allocation failed for AST_node_state_for\n");
+        errormsg(token, "Memory allocation failed for AST_node_state_for\n");
     }
 
     if (strcmp(token[curtoken].lexeme, "for") != 0) {
-        errormsg("state_for error: missing for\n");
+        errormsg(token, "state_for error: missing for\n");
     }
     curtoken++;
 
     if (strcmp(token[curtoken].lexeme, "(") != 0) {
-        errormsg("state_for error: missing (\n");
+        errormsg(token, "state_for error: missing (\n");
     }
     curtoken++;
 
@@ -741,7 +758,7 @@ struct AST_node_state_for *state_for(struct Token *token) {
     if (strcmp(token[curtoken].lexeme, ";") != 0) {
         for_node->cond = expr_bool(token);
         if (strcmp(token[curtoken].lexeme, ";") != 0) {
-            errormsg("state_for error: missing ; after condition\n");
+            errormsg(token, "state_for error: missing ; after condition\n");
         }
     } else {
         for_node->cond = NULL;
@@ -751,7 +768,7 @@ struct AST_node_state_for *state_for(struct Token *token) {
     for_node->update = state_let(token);
 
     if (strcmp(token[curtoken].lexeme, "{") != 0) {
-        errormsg("state_for error: missing { for loop body\n");
+        errormsg(token, "state_for error: missing { for loop body\n");
     }
     for_node->body = stmt(token);
 

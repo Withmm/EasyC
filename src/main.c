@@ -42,12 +42,14 @@ int main(int argc, char *argv[])
     fclose(fp);
 	  //printf("%s", source_string);
 	ntoken = lexer(source_string, maintoken);
-    /*
 	for (int i = 0; i < ntoken; i++) {
 		printf("%s: ", typedebug[maintoken[i].ttype]);
-		printf("%s\n", maintoken[i].lexeme);
+		printf("%s ", maintoken[i].lexeme);
+        if (i != ntoken - 1 && maintoken[i].line != maintoken[i + 1].line) {
+            printf("\n");
+        }
 	}
-    */
+    printf("\n");
     struct AST_node_program* ast = parser(maintoken, ntoken);
 
     handler_ast(ast);

@@ -11,6 +11,7 @@
 enum tokentype{Identifier = 0, Keyword, Constant, Operator, Delimiter, Comment, Preprocessor, Unknown, Char, Short, Int, Long, Void};
 
 struct Token {	
+	int line;
 	enum tokentype ttype;
 	char lexeme[32];
 };

@@ -2,6 +2,7 @@
 #include <string.h>
 #include <ctype.h>
 #include <stdio.h>
+int global_line = 1; 
 char delimiter[NDELIMITER] = {
 	';',
 	'(',
@@ -115,17 +116,20 @@ int lexer(char *file_lexeme, struct Token *maintoken)
 				pchar++;
 				break;
 			} else {
-				printf("unknown : %c\n", *pchar);
+				fprintf(stderr, "unknown token: %c\n", *pchar);
 				pchar++;
 				break;
 			}
 		}	
 		strcpy(maintoken[ntoken].lexeme, token.lexeme);
 		maintoken[ntoken].ttype = token.ttype;
+		maintoken[ntoken].line = global_line;
 		if (isspace(maintoken[ntoken].lexeme[0]) || maintoken[ntoken].lexeme[0] == 0)
 			ntoken--;
 		ntoken++;
 		if (*pchar == '\n' || *pchar == ' ' || *pchar == '\t') {
+			if (*pchar == '\n')
+				global_line++;
 			pchar++;
 		}
 	}

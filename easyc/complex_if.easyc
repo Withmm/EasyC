@@ -1,0 +1,64 @@
+Int: int Identifier: main Delimiter: ( Delimiter: ) Delimiter: { 
+Keyword: if Delimiter: ( Constant: 3 Operator: > Constant: 5 Delimiter: ) Delimiter: { 
+Int: int Identifier: x Operator: = Constant: 1 Delimiter: ; 
+Identifier: x Operator: = Constant: 2 Delimiter: ; 
+Delimiter: } Keyword: else Delimiter: { 
+Int: int Identifier: a Operator: = Constant: 10 Delimiter: ; 
+Int: int Identifier: b Operator: = Constant: 20 Delimiter: ; 
+Keyword: if Delimiter: ( Constant: 7 Operator: > Constant: 6 Delimiter: ) Delimiter: { 
+Int: int Identifier: y Operator: = Constant: 2 Delimiter: ; 
+Int: int Identifier: z Operator: = Delimiter: ( Constant: 1 Operator: + Constant: 8 Delimiter: ) Operator: * Constant: 9 Operator: / Constant: 2 Delimiter: ; 
+Delimiter: } Keyword: else Delimiter: { 
+Int: int Identifier: q Operator: = Constant: 0 Delimiter: ; 
+Delimiter: } 
+Keyword: if Delimiter: ( Identifier: a Operator: > Identifier: b Delimiter: ) Delimiter: { 
+Int: int Identifier: m Operator: = Constant: 0 Delimiter: ; 
+Delimiter: } 
+Delimiter: } 
+Delimiter: } 
+1: (=, 3, _, t2)
+2: (=, t2, _, t0)
+3: (=, 5, _, t4)
+4: (=, t4, _, t1)
+5: (j<=, t0, t1, 13)
+6: (=, 1, _, t7)
+7: (=, t7, _, t6)
+8: (=, t6, _, x)
+9: (=, 2, _, t10)
+10: (=, t10, _, t9)
+11: (=, 2, _, x)
+12: (j, _, _, 47)
+13: (=, 10, _, t13)
+14: (=, t13, _, t12)
+15: (=, t12, _, a)
+16: (=, 20, _, t16)
+17: (=, t16, _, t15)
+18: (=, t15, _, b)
+19: (=, 7, _, t20)
+20: (=, t20, _, t18)
+21: (=, 6, _, t22)
+22: (=, t22, _, t19)
+23: (j<=, t18, t19, 36)
+24: (=, 2, _, t25)
+25: (=, t25, _, t24)
+26: (=, t24, _, y)
+27: (=, 1, _, t31)
+28: (=, 8, _, t33)
+29: (+, t31, t33, t30)
+30: (=, t30, _, t29)
+31: (*, t29, 9, t28)
+32: (/, t28, 2, t28)
+33: (=, t28, _, t27)
+34: (=, t27, _, z)
+35: (j, _, _, 39)
+36: (=, 0, _, t38)
+37: (=, t38, _, t37)
+38: (=, t37, _, q)
+39: (=, a, _, t42)
+40: (=, t42, _, t40)
+41: (=, b, _, t44)
+42: (=, t44, _, t41)
+43: (j<=, t40, t41, 47)
+44: (=, 0, _, t47)
+45: (=, t47, _, t46)
+46: (=, t46, _, m)

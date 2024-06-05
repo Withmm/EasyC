@@ -1,0 +1,32 @@
+Int: int Identifier: main Delimiter: ( Delimiter: ) Delimiter: { 
+Int: int Identifier: x Operator: = Delimiter: ( Constant: 1 Operator: + Constant: 5 Delimiter: ) Operator: / Constant: 2 Delimiter: ; 
+Int: int Identifier: y Operator: = Constant: 3 Operator: * Constant: 10 Operator: / Constant: 2 Delimiter: ; 
+Int: int Identifier: z Operator: = Constant: 5 Operator: / Constant: 10 Operator: + Delimiter: ( Constant: 1 Operator: + Constant: 5 Delimiter: ) Delimiter: ; 
+Keyword: return Identifier: x Operator: + Identifier: y Operator: + Identifier: z Delimiter: ; 
+Delimiter: } 
+1: (=, 1, _, t4)
+2: (=, 5, _, t6)
+3: (+, t4, t6, t3)
+4: (=, t3, _, t2)
+5: (/, t2, 2, t1)
+6: (=, t1, _, t0)
+7: (=, t0, _, x)
+8: (*, 3, 10, t10)
+9: (/, t10, 2, t10)
+10: (=, t10, _, t9)
+11: (=, t9, _, y)
+12: (/, 5, 10, t15)
+13: (=, 1, _, t21)
+14: (=, 5, _, t23)
+15: (+, t21, t23, t20)
+16: (=, t20, _, t19)
+17: (=, t19, _, t18)
+18: (+, t15, t18, t14)
+19: (=, t14, _, z)
+20: (=, x, _, t26)
+21: (=, y, _, t28)
+22: (+, t26, t28, t25)
+23: (=, z, _, t30)
+24: (+, t25, t30, t25)
+25: (=, t25, _, a7)
+26: (ret, _, _, _)

@@ -1,0 +1,36 @@
+Int: int Identifier: main Delimiter: ( Delimiter: ) Delimiter: { 
+Int: int Identifier: z Delimiter: ; 
+Keyword: for Delimiter: ( Int: int Identifier: i Operator: = Constant: 0 Delimiter: ; Identifier: i Operator: < Constant: 10 Delimiter: ; Identifier: i Operator: = Identifier: i Operator: + Constant: 1 Delimiter: ) Delimiter: { 
+Keyword: if Delimiter: ( Identifier: i Operator: > Constant: 5 Delimiter: ) Delimiter: { 
+Identifier: z Operator: = Constant: 10 Delimiter: ; 
+Delimiter: } Keyword: else Delimiter: { 
+Identifier: z Operator: = Constant: 20 Delimiter: ; 
+Delimiter: } 
+Delimiter: } 
+Delimiter: } 
+1: (=, _, _, z)
+2: (=, 0, _, t1)
+3: (=, t1, _, t0)
+4: (=, t0, _, i)
+5: (=, i, _, t5)
+6: (=, t5, _, t3)
+7: (=, 10, _, t7)
+8: (=, t7, _, t4)
+9: (j>=, t3, t4, 27)
+10: (=, i, _, t11)
+11: (=, t11, _, t9)
+12: (=, 5, _, t13)
+13: (=, t13, _, t10)
+14: (j<=, t9, t10, 19)
+15: (=, 10, _, t16)
+16: (=, t16, _, t15)
+17: (=, 10, _, z)
+18: (j, _, _, 22)
+19: (=, 20, _, t19)
+20: (=, t19, _, t18)
+21: (=, 20, _, z)
+22: (=, i, _, t22)
+23: (=, 1, _, t24)
+24: (+, t22, t24, t21)
+25: (=, t21, _, i)
+26: (j, _, _, 5)

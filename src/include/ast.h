@@ -14,6 +14,7 @@ struct emit_node{
 };
 struct AST_node {
     enum AST_node_type type;
+    int line;
 };
 
 struct AST_node_program {
@@ -88,6 +89,7 @@ struct AST_node_state {
 };
 
 struct AST_node_state_if {
+    struct AST_node *basis;
     struct AST_node_condition *condition;
     struct AST_node_stmt *if_body;
     struct AST_node_stmt *else_body;
@@ -95,6 +97,7 @@ struct AST_node_state_if {
 };
 
 struct AST_node_state_for {
+    struct AST_node *basis;
     struct AST_node_state_dec *init;          // Initialization
     struct AST_node_condition *cond;    // Condition
     struct AST_node_state_let *update;       // Update expression
@@ -104,17 +107,20 @@ struct AST_node_state_for {
 
 
 struct AST_node_state_return {
+    struct AST_node *basis;
     struct AST_node_expr *ret_val;
     struct AST_node_func_dec *from;
 };
 
 struct AST_node_state_let {
+    struct AST_node *basis;
     char *var_name;
     struct AST_node_expr *var_expr;
     struct AST_node_func_dec *from;
 };
 
 struct AST_node_state_dec {
+    struct AST_node *basis;
     enum var_type_enum var_type;
     struct AST_node_expr *init_val;
     char *var_name;
@@ -122,6 +128,7 @@ struct AST_node_state_dec {
 };
 
 struct AST_node_expr {  //E
+    struct AST_node *basis;
     int val;
     struct AST_node_expr_T *expr_T;
     struct AST_node_expr_ *expr_;
@@ -129,6 +136,7 @@ struct AST_node_expr {  //E
 };
 
 struct AST_node_expr_ { //E'
+    struct AST_node *basis;
     char op;
     int val;
     struct AST_node_expr_T *expr_T;
@@ -137,12 +145,14 @@ struct AST_node_expr_ { //E'
 };
 
 struct AST_node_expr_T { //T
+    struct AST_node *basis;
     int val;
     struct AST_node_expr_t *expr_t;
     struct AST_node_expr_T_ *expr_T_;
     struct AST_node_func_dec *from;
 };
 struct AST_node_expr_T_ { //T'
+    struct AST_node *basis;
     char op;
     int val;
     struct AST_node_expr_t *expr_t;
@@ -151,6 +161,7 @@ struct AST_node_expr_T_ { //T'
 };
 
 struct AST_node_expr_t { //F
+    struct AST_node *basis;
     enum { CONSTANT, VARIABLE, FUNCTION_CALL, PARENTHESIZED_EXPR } type;
     int val;
     union {
@@ -161,7 +172,9 @@ struct AST_node_expr_t { //F
     } data;
     struct AST_node_func_dec *from;
 };
+
 struct AST_node_func_call {
+    struct AST_node *basis;
     char *func_name;              // Name of the function
     struct AST_node_expr **params; // Array of pointers to parameters (expressions)
     int params_count;             // Number of parameters
@@ -170,6 +183,7 @@ struct AST_node_func_call {
 };
 
 struct AST_node_condition {
+    struct AST_node *basis;
     char *op;    
     struct AST_node_expr *left;
     struct AST_node_expr *right;

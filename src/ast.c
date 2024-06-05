@@ -57,6 +57,16 @@ void walk_declation_list(struct AST_node_declaration_list* dec_list) {
         if (dec_list->declarations[i]->basis->type == VAR_DEC) { // global var_declaration
             struct AST_node_var_dec_only *tmp = dec_list->declarations[i]->real_dec.var;
             if (tmp->init_val) {
+                symbol_table_entry *p = find_symbol(symbol_t,
+                                    tmp->var_name,
+                                    "global");
+                if (p) { //可能已经有这个变量名了
+                    if (strcmp(p->name, tmp->var_name) == 0 &&
+                        strcmp(p->scope, "global") == 0) {
+                        fprintf(stderr, "line %d -> double define: %s\n", tmp->basis->line, p->name);
+                        exit(-1);
+                    }
+                }
                 char init_val_str[20];
                 sprintf(init_val_str, "%ld", tmp->init_val);
                 emit("=", init_val_str, NULL, tmp->var_name);
@@ -68,6 +78,16 @@ void walk_declation_list(struct AST_node_declaration_list* dec_list) {
                 put_digital(tmp->init_val, data_p);
                 data_p++;
             } else {
+                symbol_table_entry *p = find_symbol(symbol_t,
+                                    tmp->var_name,
+                                    "global");
+                if (p) { //可能已经有这个变量名了
+                    if (strcmp(p->name, tmp->var_name) == 0 &&
+                        strcmp(p->scope, "global") == 0) {
+                        fprintf(stderr, "line %d -> double define: %s\n", tmp->basis->line, p->name);
+                        exit(-1);
+                    }
+                }
                 insert_symbol(symbol_t, 
                         tmp->var_name, 
                         (char *)var_type_str[tmp->var_type],
@@ -132,6 +152,16 @@ void walk_stmt(struct AST_node_stmt* stmt, char *scope, long para_addr) // in fu
         case INIT:
             if (state_tmp->real_state.real_dec->init_val == NULL) { // int x;
                 emit("=", 0, NULL, state_tmp->real_state.real_dec->var_name);
+                symbol_table_entry *p = find_symbol(symbol_t,
+                                    state_tmp->real_state.real_dec->var_name,
+                                    scope);
+                if (p) { //可能已经有这个变量名了
+                    if (strcmp(p->name, state_tmp->real_state.real_dec->var_name) == 0 &&
+                        strcmp(p->scope, scope) == 0) {
+                        fprintf(stderr, "line %d -> double define: %s\n", state_tmp->basis->line, p->name);
+                        exit(-1);
+                    }
+                }
                 insert_symbol(symbol_t,
                         state_tmp->real_state.real_dec->var_name,
                         (char *)var_type_str[state_tmp->real_state.real_dec->var_type],
@@ -140,6 +170,16 @@ void walk_stmt(struct AST_node_stmt* stmt, char *scope, long para_addr) // in fu
                 put_digital(0, data_p);
                 data_p++;
             } else { //int x = expr();
+                symbol_table_entry *p = find_symbol(symbol_t,
+                                    state_tmp->real_state.real_dec->var_name,
+                                    scope);
+                if (p) { //可能已经有这个变量名了
+                    if (strcmp(p->name, state_tmp->real_state.real_dec->var_name) == 0 &&
+                        strcmp(p->scope, scope) == 0) {
+                        fprintf(stderr, "line %d -> double define: %s\n", state_tmp->basis->line, p->name);
+                        exit(-1);
+                    }
+                }
                 char *result = new_temp();
                 walk_expr(state_tmp->real_state.real_dec->init_val, scope, para_addr, result);
                 emit("=", result, NULL, state_tmp->real_state.real_dec->var_name);
@@ -176,7 +216,7 @@ void walk_stmt(struct AST_node_stmt* stmt, char *scope, long para_addr) // in fu
                 }
                 if (find)
                     break;
-                fprintf(stderr, "Undefined variable -> %s\n", state_tmp->real_state.real_let->var_name);
+                fprintf(stderr, "line %d -> Undefined variable : %s\n", state_tmp->basis->line, state_tmp->real_state.real_let->var_name);
                 exit(-1);
             }
             // stack 
@@ -327,7 +367,7 @@ int walk_expr_t(struct AST_node_expr_t *expr_t, char *scope, long addr, char *re
                 }
                 if (find)
                     break;
-                fprintf(stderr, "Undefined variable -> %s\n", expr_t->data.var_name);
+                fprintf(stderr, "line %d -> Undefined variable: %s\n",expr_t->basis->line, expr_t->data.var_name);
                 exit(-1);
             }
             sprintf(result, "%s", expr_t->data.var_name);
@@ -502,8 +542,8 @@ static inline void backfill()
         }
     }
 }
-char* new_temp() {
-    char* temp = malloc(20);
+char *new_temp() {
+    char *temp = malloc(16);
     sprintf(temp, "t%d", temp_var_count++);
     return temp;
 }
