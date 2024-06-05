@@ -1,4 +1,0 @@
-Int: int Identifier: main Delimiter: ( Delimiter: ) Delimiter: { 
-Int: int Identifier: x Operator: = Constant: 1 Identifier: a Delimiter: ; 
-Keyword: return Constant: 0 Delimiter: ; 
-Delimiter: } 

@@ -27,9 +27,9 @@ int main(int argc, char *argv[])
     //printf("argv[1] = %s\n", argv[1]);
 	assert(fp != NULL);
     // read line by line
-    char line[LINE_MAX];
-    int source_index = 0;
-    while (fgets(line, LINE_MAX, fp) != NULL) {
+    	char line[LINE_MAX];
+    	int source_index = 0;
+    	while (fgets(line, LINE_MAX, fp) != NULL) {
         // handle comments
         char *comment_start = strstr(line, "//");
         if (comment_start != NULL) {
@@ -39,21 +39,24 @@ int main(int argc, char *argv[])
         strncpy(source_string + source_index, line, FILEMAX - source_index);
         source_index += strlen(line);
     }
-    fclose(fp);
-	  //printf("%s", source_string);
+    	fclose(fp);
+	//printf("%s", source_string);
+	
 	ntoken = lexer(source_string, maintoken);
+	/*
 	for (int i = 0; i < ntoken; i++) {
 		printf("%s: ", typedebug[maintoken[i].ttype]);
 		printf("%s ", maintoken[i].lexeme);
-        if (i != ntoken - 1 && maintoken[i].line != maintoken[i + 1].line) {
-            printf("\n");
+        	if (i != ntoken - 1 && maintoken[i].line != maintoken[i + 1].line) {
+            		printf("\n");
         }
 	}
-    printf("\n");
-    struct AST_node_program* ast = parser(maintoken, ntoken);
+    	printf("\n");
+	*/
+    	struct AST_node_program* ast = parser(maintoken, ntoken);
 
-    handler_ast(ast);
-    print_emit();        
+    	handler_ast(ast);
+    	print_emit();        
     //printf("parser is successful!\n");
 	return 0;
 }

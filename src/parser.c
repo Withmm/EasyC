@@ -118,7 +118,7 @@ struct AST_node_declarations *declaration(struct Token *token)
 struct AST_node_func_dec *func_declaration(struct Token *token) 
 {
 	struct AST_node_func_dec *func_dec = malloc(sizeof (struct AST_node_func_dec));
-    func_dec->basis = malloc(sizeof (struct AST_node));
+    	func_dec->basis = malloc(sizeof (struct AST_node));
 	func_dec->basis->type = FUNC_DEC;
 	func_dec->basis->line = token[curtoken].line;
 	// int 

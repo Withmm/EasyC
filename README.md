@@ -30,7 +30,8 @@
   - `lex.c` 完成原始字符串到token流的转化
   - `parser.c` 完成token流到AST树的构建
   - `ast.c` 解析AST树，生成四元组
-  - `symbol.c `哈希表数据结构的简单实现
+  - `symbol.c  `哈希表数据结构的简单实现
+  - `main.c` 主文件，控制整体逻辑
   - `include` 目录存放相关头文件
 - `test` 存放部分测试文件
   - `max.c` 求两数最大值
@@ -38,7 +39,13 @@
   - `expr.c` 表达式解析
   - `complex.for.c` `for` 里嵌套`if`
   - `complex.if.c` `if`里嵌套`if`
-  - `if_error.c`  故意用未定义的变量
+  - `undefined_error1.c`  在`if`的判断条件里用没定义过的变量
+  - `undefined_error2.c `更改未定义过的变量
+  - `double_defined_error.c` 在函数内二次定义一个变量
+  - `double_defined_global_error.c` 在全局中二次定义一个变量
+  - `identifiler_error1.c` 使用不合法的变量名（右值）
+  - `identifiler_error2.c`使用不合法的变量名（左值）	
+  - `not_right.c` 随便写的一堆字母
   - `for_error.c` `for`循环未使用大括号
 
 ## 代码部分单独讲解
@@ -193,14 +200,15 @@ struct Token {
   - `errormsg`：用于打印错误消息并退出程序。
 
    ```C
-    void errormsg(const char *format, ...)
-    {
-        va_list args;
-        va_start(args, format);
-    	 vfprintf(stderr, format, args);
-        va_end(args);
-    	 exit(-1);
-    }
+   void errormsg(struct Token *token, const char *format, ...)
+   {
+       fprintf(stderr, "line %d -> ", token[curtoken].line);
+       va_list args;
+       va_start(args, format);
+           vfprintf(stderr, format, args);
+       va_end(args);
+           exit(-1);
+   }
    ```
 
 - **Token和AST节点的声明**：
@@ -377,7 +385,7 @@ AST树生成有利于后续的四元组生成，而且降低项目耦合度， �
 
 **主要功能**
 
-- 根据AST树生成四元组
+- 根据`AST树`生成四元组
 
 **四元组数据结构**
 
@@ -482,7 +490,7 @@ char* new_temp() {
 
 
 
-**ABI接口**
+**ABI接口协议**
 
 - `a0 - a6`是函数参数
 
@@ -495,3 +503,9 @@ char* new_temp() {
 [表达式LL(1)文法](https://www.omegaxyz.com/2018/12/21/ll1-recursiondown/)
 
 [北京大学编译原理文档](https://pku-minic.github.io/online-doc/#/)
+
+
+
+**代码规范参考 **
+
+[Linux内核代码风格](https://www.kernel.org/doc/html/v4.13/translations/zh_CN/coding-style.html)

@@ -1,3 +1,0 @@
-Int: int Identifier: main Delimiter: ( Delimiter: ) Delimiter: { 
-Keyword: for Delimiter: ( Int: int Identifier: i Operator: = Constant: 0 Delimiter: ; Identifier: i Operator: < Constant: 10 Delimiter: ; Identifier: i Operator: = Identifier: i Operator: + Constant: 1 Delimiter: ) Identifier: i Operator: = Constant: 0 Delimiter: ; 
-Delimiter: } 

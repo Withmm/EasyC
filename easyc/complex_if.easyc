@@ -1,21 +1,3 @@
-Int: int Identifier: main Delimiter: ( Delimiter: ) Delimiter: { 
-Keyword: if Delimiter: ( Constant: 3 Operator: > Constant: 5 Delimiter: ) Delimiter: { 
-Int: int Identifier: x Operator: = Constant: 1 Delimiter: ; 
-Identifier: x Operator: = Constant: 2 Delimiter: ; 
-Delimiter: } Keyword: else Delimiter: { 
-Int: int Identifier: a Operator: = Constant: 10 Delimiter: ; 
-Int: int Identifier: b Operator: = Constant: 20 Delimiter: ; 
-Keyword: if Delimiter: ( Constant: 7 Operator: > Constant: 6 Delimiter: ) Delimiter: { 
-Int: int Identifier: y Operator: = Constant: 2 Delimiter: ; 
-Int: int Identifier: z Operator: = Delimiter: ( Constant: 1 Operator: + Constant: 8 Delimiter: ) Operator: * Constant: 9 Operator: / Constant: 2 Delimiter: ; 
-Delimiter: } Keyword: else Delimiter: { 
-Int: int Identifier: q Operator: = Constant: 0 Delimiter: ; 
-Delimiter: } 
-Keyword: if Delimiter: ( Identifier: a Operator: > Identifier: b Delimiter: ) Delimiter: { 
-Int: int Identifier: m Operator: = Constant: 0 Delimiter: ; 
-Delimiter: } 
-Delimiter: } 
-Delimiter: } 
 1: (=, 3, _, t2)
 2: (=, t2, _, t0)
 3: (=, 5, _, t4)

@@ -113,6 +113,8 @@ int lexer(char *file_lexeme, struct Token *maintoken)
 				token.ttype = Delimiter;
 				break;
 			} else if (isspace(first_char)){
+				if (first_char == '\n')
+					global_line++;
 				pchar++;
 				break;
 			} else {
